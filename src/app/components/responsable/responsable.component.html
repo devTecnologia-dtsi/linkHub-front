@@ -1,0 +1,132 @@
+<div class="container">
+    @if (responsible.length > 0 || isAddNewResponsible) {
+    <ng-form nz-form [formGroup]="validateFormResponsible" (ngSubmit)="submitFormResponsible()" nzLayout="vertical">
+        <div class="row">
+            <div class="col-md-6 col-sm-12">
+                <nz-form-item>
+                    <nz-form-control nzErrorTip="Este es un campo obligatorio">
+                        <nz-select id="usuario" nzPlaceHolder="Seleciona el el usuario" formControlName="id_usuario"
+                            nzAllowClear nzShowSearch nzServerSearch (nzOnSearch)="onSearchResponsible($event)">
+                            <ng-container *ngFor="let dataResponsible of optionListResponsible">
+                                <nz-option *ngIf="!isLoadingResponsible" [nzValue]="dataResponsible.id"
+                                    [nzLabel]="dataResponsible.nombre"></nz-option>
+                            </ng-container>
+                            <nz-option *ngIf="isLoadingResponsible" nzDisabled nzCustomContent>
+                                <span nz-icon nzType="loading" class="loading-icon"></span>
+                                Cargando información...
+                            </nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+            <div class="col-md-6 col-sm-12">
+                <nz-form-item>
+                    <nz-form-control nzErrorTip="Este es un campo obligatorio">
+                        <nz-select id="rol" nzPlaceHolder="Seleciona el rol" formControlName="id_rol" nzAllowClear
+                            nzShowSearch nzServerSearch (nzOnSearch)="onSearchRol($event)">
+                            <ng-container *ngFor="let dataRol of optionListRol">
+                                <nz-option *ngIf="!isLoadingRol" [nzValue]="dataRol.id"
+                                    [nzLabel]="dataRol.descripcion"></nz-option>
+                            </ng-container>
+                            <nz-option *ngIf="isLoadingRol" nzDisabled nzCustomContent>
+                                <span nz-icon nzType="loading" class="loading-icon"></span>
+                                Cargando información...
+                            </nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+            <div class="col-12 text-center mb-4">
+                <button nz-button nzType="primary" (click)="submitFormResponsible()">
+                    Agregar Responsable
+                    <span nz-icon nzType="plus"></span>
+                </button>
+            </div>
+        </div>
+    </ng-form>
+    <div class="table-responsive">
+        <nz-table #editRowTable nzBordered [nzData]="responsible" nzTableLayout="fixed" [nzScroll]="scrollTableX">
+            <thead>
+                <tr>
+                    <th [nzWidth]="widthUser">Usuario</th>
+                    <th [nzWidth]="widthRol">Rol</th>
+                    <th [nzWidth]="widthAction" nzRight>Accion</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (data of editRowTable.data; track data) {
+                <tr>
+                    @if (!editCacheTableResponsible[$index].edit) {
+                    <td>{{ data.nombre_usuario }}</td>
+                    <td>{{ data.descripcion_rol }}</td>
+                    <td nzRight>
+                        <div class="d-flex justify-content-end gap-2">
+                            <button nz-button nzType="primary" nzShape="circle" (click)="startEditResponsible($index)">
+                                <span nz-icon nzType="edit" nzTheme="outline"></span>
+                            </button>
+                            <button nz-button nzType="primary" nzShape="circle" nzDanger (click)="deleteResponsible($index)">
+                                <span nz-icon nzType="delete" nzTheme="outline"></span>
+                            </button>
+                        </div>
+                    </td>
+                    } @else {
+                    <td>
+                        <nz-select class="w-100" [(ngModel)]="editCacheTableResponsible[$index].data.id_usuario"
+                            nzPlaceHolder="Seleciona el usuario" nzShowSearch nzServerSearch
+                            (nzOnSearch)="onSearchResponsible($event)">
+                            <ng-container *ngFor="let dataResponsible of optionListResponsible">
+                                <nz-option *ngIf="!isLoadingResponsible" [nzValue]="dataResponsible.id"
+                                    [nzLabel]="dataResponsible.nombre"></nz-option>
+                            </ng-container>
+                            <nz-option *ngIf="isLoadingResponsible" nzDisabled nzCustomContent>
+                                <span nz-icon nzType="loading" class="loading-icon"></span>
+                                Cargando información...
+                            </nz-option>
+                        </nz-select>
+                    </td>
+                    <td>
+                        <nz-select class="w-100" [(ngModel)]="editCacheTableResponsible[$index].data.id_rol"
+                            nzPlaceHolder="Seleciona el rol" nzShowSearch nzServerSearch
+                            (nzOnSearch)="onSearchRol($event)">
+                            <ng-container *ngFor="let dataRol of optionListRol">
+                                <nz-option *ngIf="!isLoadingRol" [nzValue]="dataRol.id"
+                                    [nzLabel]="dataRol.descripcion"></nz-option>
+                            </ng-container>
+                            <nz-option *ngIf="isLoadingRol" nzDisabled nzCustomContent>
+                                <span nz-icon nzType="loading" class="loading-icon"></span>
+                                Cargando información...
+                            </nz-option>
+                        </nz-select>
+                    </td>
+                    <td nzRight>
+                        <div class="d-flex justify-content-end gap-2">
+                            <button nz-button nzType="primary" nzShape="circle" (click)="saveEditResponsible($index)">
+                                <span nz-icon nzType="save" nzTheme="outline"></span>
+                            </button>
+                            <button nz-button nzType="primary" nzShape="circle" nzDanger nz-popconfirm
+                                nzPopconfirmTitle="¿Seguro que quieres cancelar los cambios?"
+                                (nzOnConfirm)="cancelEditResponsible($index)">
+                                <span nz-icon nzType="close-circle" nzTheme="outline"></span>
+                            </button>
+                        </div>
+                    </td>
+                    }
+                </tr>
+                }
+            </tbody>
+        </nz-table>
+    </div>
+    } @else {
+    <nz-empty *ngIf="responsible.length == 0" nzNotFoundImage="..../../assets/icons/responsables.avif"
+        [nzNotFoundContent]="contentTpl" [nzNotFoundFooter]="footerTpl">
+        <ng-template #contentTpl>
+            <span>
+                No se han agregado responsables
+            </span>
+        </ng-template>
+        <ng-template #footerTpl>
+            <button nz-button nzType="primary" (click)="showRefResponsible()">Agregar Responsables</button>
+        </ng-template>
+    </nz-empty>
+    }
+</div>

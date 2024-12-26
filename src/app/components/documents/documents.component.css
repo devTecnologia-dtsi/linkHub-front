@@ -1,0 +1,27 @@
+@media (max-width: 768px) {
+
+    nz-table th,
+    nz-table td {
+        padding: 8px;
+        font-size: 12px;
+    }
+
+    .button-group {
+        flex-direction: column;
+    }
+
+    .nz-table td,
+    .nz-table th {
+        white-space: nowrap;
+        font-size: 12px;
+    }
+
+    .nz-table .nz-fixed-right {
+        background-color: white;
+    }
+}
+
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+}

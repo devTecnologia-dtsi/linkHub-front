@@ -1,0 +1,81 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12 d-flex bd-highlight flex-wrap">
+            <div class="me-auto p-2 bd-highlight">
+                <button nz-button nzType="primary" (click)="openTemplate()">
+                    <span nz-icon nzType="plus"></span>
+                </button>
+            </div>
+            <div class="bd-highlight p-2">
+                <nz-input-group nzSearch [nzAddOnAfter]="suffixButton">
+                    <input type="text" [(ngModel)]="searchValue" nz-input placeholder="Buscar" />
+                </nz-input-group>
+                <ng-template #suffixButton>
+                    <button nz-button nzType="primary" (click)="search()">
+                        <i nz-icon nzType="search"></i>Buscar
+                    </button>
+                </ng-template>
+            </div>
+            <div class="bd-highlight p-2">
+                <button nz-button nzType="primary">
+                    <i nz-icon nzType="clear" (click)="reset()"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<ng-template #drawerOs let-data let-drawerRef="drawerRef">
+    <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()" nzLayout="vertical">
+        <nz-form-item>
+            <nz-form-label nzRequired nzFor="nombre">Nombre del sistema operativo</nz-form-label>
+            <nz-form-control nzErrorTip="Este campo es obligatorio">
+                <input id="nombre" type="text" nz-input formControlName="nombre" [ngModel]="dataForm.nombre"
+                    placeholder="Escriba el nombre del sistema operativo" />
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-label nzRequired nzFor="version">Version</nz-form-label>
+            <nz-form-control nzErrorTip="Este campo es obligatorio">
+                <input id="version" type="text" nz-input formControlName="version" [ngModel]="dataForm.version"
+                    placeholder="Escriba la version del sistema operativo" />
+            </nz-form-control>
+        </nz-form-item>
+    </form>
+</ng-template>
+<ng-template #footerOs>
+    <div style="float: right">
+        <button class="me-2" nz-button (click)="close()">Cerrar</button>
+        <button nz-button nzType="primary" (click)="submitForm()" [nzLoading]="isSaving">Guardar</button>
+    </div>
+</ng-template>
+<nz-table class="mt-2" #filterTable [nzData]="listOfData" nzTableLayout="fixed" [nzPageSize]="100"
+    [nzScroll]="{ x: 'auto' }" [nzLoading]="isLoading">
+    <thead>
+        <tr>
+            <th *ngFor="let column of listOfColumns;" [(nzSortOrder)]="column.sortOrder" [nzSortFn]="column.sortFn"
+                [nzShowSort]="column.showSort">
+
+                {{ column.name }}
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let data of filterTable.data">
+            <td>{{ data.id }}</td>
+            <td>{{ data.nombre }}</td>
+            <td>{{ data.version }}</td>
+            <td>
+                <div class="d-flex justify-content-center flex-wrap">
+                    <button nz-button nzType="primary" nz-tooltip nzTooltipTitle="Editar">
+                        <span nz-icon nzType="edit" (click)="openEditTemplate(data)"></span>
+                    </button>
+                    <nz-switch [(ngModel)]="data.activo" [nzControl]="true" (click)="changeState(data)"
+                        [nzLoading]="data.loading ? true : false" nz-tooltip
+                        [nzTooltipTitle]="data.activo ? 'Desactivar' : 'Activar'"></nz-switch>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</nz-table>

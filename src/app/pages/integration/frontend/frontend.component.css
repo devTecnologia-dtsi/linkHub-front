@@ -1,0 +1,6 @@
+span[nzType="code"],
+span[nzType="link"],
+span[nzType="phone"],
+span[nzType="chrome"] {
+    font-size: 22px
+}

@@ -1,0 +1,132 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12 d-flex bd-highlight flex-wrap">
+            <div class="me-auto p-2 bd-highlight">
+                <button nz-button nzType="primary" (click)="openTemplate()">
+                    <span nz-icon nzType="plus"></span>
+                </button>
+            </div>
+            <div class="bd-highlight p-2">
+                <nz-input-group nzSearch [nzAddOnAfter]="suffixButton">
+                    <input type="text" [(ngModel)]="searchValue" nz-input placeholder="Buscar" />
+                </nz-input-group>
+                <ng-template #suffixButton>
+                    <button nz-button nzType="primary" (click)="search()">
+                        <i nz-icon nzType="search"></i>Buscar
+                    </button>
+                </ng-template>
+            </div>
+            <div class="bd-highlight p-2">
+                <button nz-button nzType="primary">
+                    <i nz-icon nzType="clear" (click)="reset()"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #drawerServer let-data let-drawerRef="drawerRef">
+    <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()" nzLayout="vertical">
+        <nz-form-item>
+            <nz-form-label nzRequired nzFor="nombre_servidor">Nombre del servidor</nz-form-label>
+            <nz-form-control nzErrorTip="Este campo es obligatorio">
+                <input id="nombre_servidor" type="text" nz-input formControlName="nombre_servidor"
+                    [ngModel]="dataForm.nombre_servidor" placeholder="Escriba el nombre del servidor" />
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-label nzRequired nzFor="ip">IP</nz-form-label>
+            <nz-form-control nzErrorTip="Este campo es obligatorio">
+                <input id="ip" type="text" nz-input formControlName="ip" [ngModel]="dataForm.ip"
+                    placeholder="Escriba la ip del servidor" />
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-label nzRequired nzFor="ambiente">Ambiente</nz-form-label>
+            <nz-form-control nzErrorTip="Este es un campo obligatorio">
+                <nz-select id="ambiente" formControlName="ambiente" nzPlaceHolder="Seleciona el ambiente" nzAllowClear
+                    nzShowSearch nzServerSearch [ngModel]="selectedEnviroment"
+                    (nzOnSearch)="onSearchEnviroment($event)">
+                    <ng-container *ngFor="let dataEnviroment of optionListEnviroments">
+                        <nz-option *ngIf="!isLoadingEnviroments" [nzValue]="dataEnviroment.id"
+                            [nzLabel]="dataEnviroment.descripcion"></nz-option>
+                    </ng-container>
+                    <nz-option *ngIf="isLoadingEnviroments" nzDisabled nzCustomContent>
+                        <span nz-icon nzType="loading" class="loading-icon"></span>
+                        Cargando información...
+                    </nz-option>
+                </nz-select>
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-label nzRequired nzFor="sistema_operativo">Sistema Operativo</nz-form-label>
+            <nz-form-control nzErrorTip="Este es un campo obligatorio">
+                <nz-select id="sistema_operativo" formControlName="sistema_operativo"
+                    nzPlaceHolder="Seleciona el sistema operativo" nzAllowClear nzShowSearch nzServerSearch
+                    [ngModel]="selectedOs" (nzOnSearch)="onSearchOs($event)">
+                    <ng-container *ngFor="let dataOs of optionListOs">
+                        <nz-option *ngIf="!isLoadingOs" [nzValue]="dataOs.id" [nzLabel]="dataOs.nombre"></nz-option>
+                    </ng-container>
+                    <nz-option *ngIf="isLoadingOs" nzDisabled nzCustomContent>
+                        <span nz-icon nzType="loading" class="loading-icon"></span>
+                        Cargando información...
+                    </nz-option>
+                </nz-select>
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-label nzRequired nzFor="docker">¿Docker?</nz-form-label>
+            <nz-form-control>
+                <nz-switch id="docker" [ngModel]="stateDocker" [nzCheckedChildren]="checkedTemplate"
+                    [nzUnCheckedChildren]="unCheckedTemplate" formControlName="docker"> </nz-switch>
+                <ng-template #checkedTemplate>
+                    <span nz-icon nzType="check"></span>
+                </ng-template>
+                <ng-template #unCheckedTemplate>
+                    <span nz-icon nzType="close"></span>
+                </ng-template>
+            </nz-form-control>
+        </nz-form-item>
+    </form>
+</ng-template>
+<ng-template #footerServer>
+    <div style="float: right">
+        <button class="me-2" nz-button (click)="close()">Cerrar</button>
+        <button nz-button nzType="primary" (click)="submitForm()" [nzLoading]="isSaving">Guardar</button>
+    </div>
+</ng-template>
+<nz-table class="mt-2" #filterTable [nzData]="listOfData" nzTableLayout="fixed" [nzPageSize]="100"
+    [nzScroll]="{ x: 'auto' }" [nzLoading]="isLoading">
+    <thead>
+        <tr>
+            <th *ngFor="let column of listOfColumns;" [(nzSortOrder)]="column.sortOrder" [nzSortFn]="column.sortFn"
+                [nzShowSort]="column.showSort">
+                {{ column.name }}
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let data of filterTable.data">
+            <td>{{ data.id }}</td>
+            <td>{{ data.nombre_servidor }}</td>
+            <td>{{ data.ip }}</td>
+            <td>{{ data.nombre_sistema_operativo }}</td>
+            <td>{{ data.descripcion_ambiente }}</td>
+            <td>
+                <img class="fluid-img" nzTooltipTitle="Activo" nzTooltipPlacement="bottomLeft" nz-tooltip
+                    src="../../../../assets/docker-active.svg" width="70" height="60" *ngIf="data.docker">
+                <img class="fluid-img" nzTooltipTitle="Desactivado" nzTooltipPlacement="bottomLeft" nz-tooltip
+                    src="../../../../assets/docker-desactive.png" width="70" height="60" *ngIf="!data.docker">
+            </td>
+            <td>
+                <div class="d-flex justify-content-center flex-wrap">
+                    <button nz-button nzType="primary">
+                        <span nz-icon nzType="edit" (click)="openEditTemplate(data)"></span>
+                    </button>
+                    <nz-switch [(ngModel)]="data.activo" [nzControl]="true" (click)="changeState(data)"
+                        [nzLoading]="data.loading ? true : false"></nz-switch>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</nz-table>

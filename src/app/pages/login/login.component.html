@@ -1,0 +1,18 @@
+<div class="login-container">
+    <video #videoPlayer autoplay loop class="background-video">
+        <source src="assets/videos/projects.mp4" type="video/mp4">
+        Tu navegador no soporta videos de fondo.
+    </video>
+    <div class="overlay"></div>
+
+    <div class="login-content">
+        <div class="login-card">
+            <img src="assets/logo.png" alt="App Logo" class="logo">
+            <h1>Bienvenido</h1>
+            <p>Conéctate fácilmente con tu cuenta corporativa</p>
+            <button class="btn btn-primary btn-lg w-100 login-button" (click)="login()">
+                <i class="bi bi-box-arrow-in-right"></i> Iniciar sesión
+            </button>
+        </div>
+    </div>
+</div>

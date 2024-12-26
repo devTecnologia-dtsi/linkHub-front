@@ -1,0 +1,11 @@
+<div class="row">
+    <div class="col-sm-12 col-md-12 text-center">
+        <div id="chartdiv">
+            @if (!isLoading) {
+                <div class="responsive-chart"></div>
+            }@else {
+                <nz-spin nzSimple></nz-spin>
+            }
+        </div>
+    </div>
+</div>
