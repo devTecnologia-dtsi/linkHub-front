@@ -35,7 +35,7 @@
         </nz-form-item>
         <nz-form-item>
             <nz-form-label nzRequired nzFor="correo">Correo</nz-form-label>
-            <nz-form-control nzErrorTip="Este campo es obligatorio">
+            <nz-form-control nzErrorTip="Correo no valido">
                 <input id="correo" type="text" nz-input formControlName="correo" [ngModel]="dataForm.correo"
                     placeholder="Escriba el correo del usuario" />
             </nz-form-control>
@@ -44,7 +44,7 @@
             <nz-form-label nzRequired nzFor="id_tipo_usuario">Rol</nz-form-label>
             <nz-form-control nzErrorTip="Este es un campo obligatorio">
                 <nz-select id="id_tipo_usuario" formControlName="id_tipo_usuario" nzPlaceHolder="Seleciona el Rol"
-                    nzAllowClear nzShowSearch nzServerSearch [ngModel]="selectedTypeUser"
+                    nzAllowClear nzShowSearch nzServerSearch [ngModel]="dataForm.id_tipo_usuario"
                     (nzOnSearch)="onSearchTypeUser($event)">
                     <ng-container *ngFor="let dataEnviroment of optionListTypeUser">
                         <nz-option *ngIf="!isLoadingTypeUser" [nzValue]="dataEnviroment.id"

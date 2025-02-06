@@ -20,6 +20,7 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { UserService } from '../../../service/user/user.service';
 import { UserTypeService } from '../../../service/user-type/user-type.service';
 import { GlobalService } from '../../../service/global/global.service';
+import { forbiddenNameValidator } from '../../../validators/forbidden-name.validator';
 
 @Component({
   selector: 'app-user',
@@ -70,7 +71,7 @@ export class UserComponent {
 
   validateForm: FormGroup<FormUser> = this.fb.group({
     cargo: ['', [Validators.required]],
-    correo: ['', [Validators.required, Validators.email]],
+    correo: ['', [Validators.required, forbiddenNameValidator(/^[a-zA-Z0-9._%+-]+@uniminuto\.edu$/)]],
     id_tipo_usuario: ['', [Validators.required]],
     nombre: ['', [Validators.required]],
     telefono: [0, [Validators.required]]
