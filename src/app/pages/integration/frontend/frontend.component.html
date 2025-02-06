@@ -60,7 +60,7 @@
             <div class="col-md-6 col-sm-12">
                 <nz-form-item>
                     <nz-form-label nzRequired nzFor="url">Url Versionamiento</nz-form-label>
-                    <nz-form-control nzErrorTip="Este campo es obligatorio">
+                    <nz-form-control nzErrorTip="Url no valida">
                         <input id="url" type="text" nz-input formControlName="url_versionamiento"
                             [ngModel]="dataForm.url" placeholder="Escriba la url del codigó fuente" />
                     </nz-form-control>
@@ -90,7 +90,7 @@
                     <nz-form-label nzRequired nzFor="tipoApp">Tipo App</nz-form-label>
                     <nz-form-control nzErrorTip="Este campo es obligatorio">
                         <nz-switch [ngModel]="dataForm.tipoApp" [nzCheckedChildren]="checkedTemplate"
-                            [nzUnCheckedChildren]="unCheckedTemplate" formControlName="tipoApp"></nz-switch>
+                            [nzUnCheckedChildren]="unCheckedTemplate" formControlName="tipoApp" id="tipoApp"></nz-switch>
                         <ng-template #checkedTemplate><span nz-icon nzType="phone"
                                 nzTheme="outline"></span></ng-template>
                         <ng-template #unCheckedTemplate><span nz-icon nzType="chrome"

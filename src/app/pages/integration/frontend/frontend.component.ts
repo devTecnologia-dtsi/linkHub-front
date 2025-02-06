@@ -35,6 +35,7 @@ import { ServerComponent } from '../../../components/server/server.component';
 import { BackendComponent } from '../../../components/backend/backend.component';
 import { ResponsableComponent } from '../../../components/responsable/responsable.component';
 import { DocumentsComponent } from '../../../components/documents/documents.component';
+import { forbiddenNameValidator } from '../../../validators/forbidden-name.validator';
 
 @Component({
   selector: 'app-frontend',
@@ -109,7 +110,7 @@ export class FrontendComponent {
     nombre_proyecto: ['', [Validators.required]],
     descripcion_proyecto: ['', [Validators.required]],
     url: ['', [Validators.required]],
-    url_versionamiento: ['', [Validators.required]],
+    url_versionamiento: ['', [Validators.required, forbiddenNameValidator(/^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(:\d{1,5})?(\/[^\s]*)?$/)]],
     id_lenguaje: ['', [Validators.required]],
     tipoApp: [false, [Validators.required]]
   });
