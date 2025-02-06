@@ -94,7 +94,7 @@
             <div class="col-md-6 col-sm-12">
                 <nz-form-item>
                     <nz-form-label nzRequired nzFor="metodo">Url Versionamiento</nz-form-label>
-                    <nz-form-control nzErrorTip="Este campo es obligatorio">
+                    <nz-form-control nzErrorTip="Ulr no valida">
                         <input id="url_versionamiento" type="text" nz-input formControlName="url_versionamiento"
                             [ngModel]="dataForm.URL_Versionamiento" placeholder="Escriba la url del versionamiento" />
                     </nz-form-control>
@@ -103,10 +103,9 @@
             <div class="col-md-12 col-sm-12">
                 <nz-form-item>
                     <nz-form-label nzRequired nzFor="coleccion">Colección</nz-form-label>
-                    <nz-form-control nzErrorTip="Este campo es obligatorio">
-                        <textarea id="coleccion" nz-input placeholder="Escriba la colección"
-                            [ngModel]="dataForm.coleccion" formControlName="coleccion"
-                            [nzAutosize]="{ minRows: 3, maxRows: 5 }"></textarea>
+                    <nz-form-control nzErrorTip="Url no valida">
+                        <input id="coleccion" type="text" nz-input formControlName="coleccion"
+                            [ngModel]="dataForm.coleccion" placeholder="Escriba la url de la colección" />
                     </nz-form-control>
                 </nz-form-item>
             </div>
@@ -169,12 +168,16 @@
             <td [nzExpand]="expandSet.has(data.id)" (nzExpandChange)="onExpandChange(data.id, $event)"></td>
             <td>{{ data.nombre_backend }}</td>
             <td>{{ data.metodo }}</td>
-            <td class="text-center"> <a href="{{ data.URL_Versionamiento }}" target="_blank"><span nz-icon nzType="link" nzTheme="outline"></span></a></td>
             <td>{{ data.endpoint }}</td>
             <td>{{ data.autenticacion }}</td>
-            <td>{{ data.coleccion }}</td>
+            <td class="text-center">
+                <div class="d-flex justify-content-around flex-wrap">
+                    <a href="{{ data.URL_Versionamiento }}" target="_blank"><span nz-icon nzType="link" nzTheme="outline"></span></a>
+                    <a href="{{ data.coleccion }}" target="_blank"><span nz-icon nzType="codepen" nzTheme="outline"></span></a>
+                </div>
+            </td>
             <td>
-                <div class="d-flex justify-content-center flex-wrap">
+                <div class="d-flex justify-content-around flex-wrap">
                     <button nz-button nzType="primary" class="me-2">
                         <span nz-icon nzType="edit" (click)="openEditTemplate(data)"></span>
                     </button>

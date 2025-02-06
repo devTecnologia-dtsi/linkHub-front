@@ -1,3 +1,4 @@
-span[nzType="link"] {
+span[nzType="link"],
+span[nzType="codepen"] {
     font-size: 22px
 }

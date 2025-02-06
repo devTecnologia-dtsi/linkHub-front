@@ -34,6 +34,7 @@ import { BackendService } from '../../../service/backend/backend.service';
 import { ServerComponent } from '../../../components/server/server.component';
 import { ResponsableComponent } from '../../../components/responsable/responsable.component';
 import { DocumentsComponent } from '../../../components/documents/documents.component';
+import { forbiddenNameValidator } from '../../../validators/forbidden-name.validator';
 
 @Component({
   selector: 'app-backend',
@@ -110,10 +111,10 @@ export class BackendComponent {
   validateForm: FormGroup<FormBackend> = this.fb.group({
     autenticacion: ['', [Validators.required]],
     body: ['', []],
-    coleccion: ['', [Validators.required]],
+    coleccion: ['', [Validators.required, forbiddenNameValidator(/^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(:\d{1,5})?(\/[^\s]*)?$/)]],
     id_lenguaje: ['', [Validators.required]],
     metodo: ['', [Validators.required]],
-    url_versionamiento: ['', [Validators.required]],
+    url_versionamiento: ['', [Validators.required, forbiddenNameValidator(/^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(:\d{1,5})?(\/[^\s]*)?$/)]],
     nombre_backend: ['', [Validators.required]],
     endpoint: ['', [Validators.required]]
   });
@@ -138,12 +139,6 @@ export class BackendComponent {
       showSort: true
     },
     {
-      name: 'Url',
-      sortOrder: null,
-      sortFn: null,
-      showSort: false
-    },
-    {
       name: 'Endpoint',
       sortOrder: null,
       sortFn: (a: DataTableBackend, b: DataTableBackend) => a.endpoint.localeCompare(b.endpoint),
@@ -156,10 +151,10 @@ export class BackendComponent {
       showSort: true
     },
     {
-      name: 'Coleccion',
+      name: "Url's",
       sortOrder: null,
-      sortFn: (a: DataTableBackend, b: DataTableBackend) => a.coleccion.localeCompare(b.coleccion),
-      showSort: true
+      sortFn: null,
+      showSort: false
     },
     {
       name: 'Acciones',
