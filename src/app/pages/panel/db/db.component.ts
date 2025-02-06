@@ -51,9 +51,11 @@ import { GlobalService } from '../../../service/global/global.service';
 export class DbComponent {
   @ViewChild('drawerDb', { static: false }) drawerTemplate?: TemplateRef<drawerTemplate>
   @ViewChild('footerDb', { static: false }) drawerFooter?: TemplateRef<DrawerFooter>
-  isLoading: boolean = false
+  isLoading: boolean = true
   isSaving: boolean = false
   searchValue: string = ''
+  showPassword: boolean = false
+  iconPassword: string = 'eye'
 
 
   // select engine
@@ -147,8 +149,10 @@ export class DbComponent {
   }
 
   getData(): void {
+    this.isLoading = true
     this.serviceDb.getAllDB()
       .subscribe((data: any) => {
+        this.isLoading = false
         if (data.ok != undefined && data.ok == false) {
           this.message.error('!Ups! Hubo un error al obtener las bases de datos', { nzDuration: 2500 })
           return
@@ -315,6 +319,11 @@ export class DbComponent {
     } else {
       this.optionListEngines = this.optionListEngines.filter(({ descripcion }) => descripcion.toLocaleUpperCase().includes(value.toLocaleUpperCase()))
     }
+  }
+
+  changeStatePassword() {
+    this.showPassword = !this.showPassword
+    this.iconPassword = this.showPassword ? 'eye-invisible' : 'eye'
   }
 
   close(): void {

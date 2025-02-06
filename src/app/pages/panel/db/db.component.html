@@ -106,11 +106,18 @@
             <td>{{ data.descripcion_motor }}</td>
             <td>{{ data.nombre_servidor }}</td>
             <td>{{ data.usuario }}</td>
-            <td>{{ data.contrasena }}</td>
             <td>
-                <div class="d-flex justify-content-center flex-wrap">
-                    <button nz-button nzType="primary">
-                        <span nz-icon nzType="edit" (click)="openEditTemplate(data)"></span>
+                <div class="d-flex justify-content-around flex-wrap">
+                    {{ showPassword ? data.contrasena : '***' }}
+                    <button nz-button nzType="primary" (click)="changeStatePassword()">
+                        <span nz-icon [nzType]="iconPassword"></span>
+                    </button>
+                </div>
+            </td>
+            <td>
+                <div class="d-flex justify-content-around flex-wrap">
+                    <button nz-button nzType="primary" (click)="openEditTemplate(data)">
+                        <span nz-icon nzType="edit"></span>
                     </button>
                     <nz-switch [(ngModel)]="data.activo" [nzControl]="true" (click)="changeState(data)"
                         [nzLoading]="data.loading ? true : false"></nz-switch>
