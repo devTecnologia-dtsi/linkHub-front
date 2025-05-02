@@ -11,7 +11,7 @@
             </div>
             <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
                 @if (tipoUsuario == "1") {
-                <li nz-submenu nzOpen nzTitle="Configuracion" nzIcon="user">
+                <li nz-submenu nzTitle="Configuracion" nzIcon="user">
                     <ul>
                         <li nz-menu-item nzMatchRouter>
                             <a [routerLink]="['/configuration/user']" routerLinkActive="router-link-active">Usuarios</a>
@@ -27,7 +27,7 @@
                     </ul>
                 </li>
 
-                <li nz-submenu nzOpen nzTitle="Panel de Configuracion" nzIcon="setting">
+                <li nz-submenu nzTitle="Panel de Configuracion" nzIcon="setting">
                     <ul>
                         <li nz-menu-item nzMatchRouter>
                             <a [routerLink]="['/panel/enviroment']" routerLinkActive="router-link-active">Ambientes</a>
@@ -54,7 +54,7 @@
                     </ul>
                 </li>
                 }
-                <li nz-submenu nzOpen nzTitle="Integraciones" nzIcon="api">
+                <li nz-submenu nzTitle="Integraciones" nzIcon="api">
                     <ul>
                         <li nz-menu-item nzMatchRouter>
                             <a [routerLink]="['/integration/backend']" routerLinkActive="router-link-active">Backend</a>
