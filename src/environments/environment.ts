@@ -9,7 +9,7 @@ export const environment = {
     redirectUri: 'http://10.0.26.31:81/login',
     // redirectUri: 'http://localhost:4200/dashboard',
     // redirectUri: 'http://localhost:81/dashboard',
-    postLogoutRedirectUri: 'http://localhost:4200/login',
+    postLogoutRedirectUri: 'http://10.0.26.31:81/login',
     // postLogoutRedirectUri: 'http://localhost:81/login'
   },
   apiConfig: {
