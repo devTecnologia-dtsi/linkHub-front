@@ -7,7 +7,13 @@ import { NzSpinModule } from 'ng-zorro-antd/spin';
 
 import { CommonModule } from '@angular/common';
 import { filter, Subject, Subscription } from 'rxjs';
-import { MsalService, MsalModule, MsalBroadcastService, MSAL_GUARD_CONFIG, MsalGuardConfiguration } from '@azure/msal-angular';
+import {
+  MsalService,
+  MsalModule,
+  MsalBroadcastService,
+  MSAL_GUARD_CONFIG,
+  MsalGuardConfiguration,
+} from '@azure/msal-angular';
 import { EventMessage, EventType } from '@azure/msal-browser';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { LoadingService } from '../../service/loading/loading.service';
@@ -15,9 +21,17 @@ import { LoadingService } from '../../service/loading/loading.service';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [NzButtonModule, NzIconModule, CommonModule, RouterOutlet, MsalModule, NzModalModule, NzSpinModule],
+  imports: [
+    NzButtonModule,
+    NzIconModule,
+    CommonModule,
+    RouterOutlet,
+    MsalModule,
+    NzModalModule,
+    NzSpinModule,
+  ],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.scss'
+  styleUrl: './login.component.scss',
 })
 export class LoginComponent {
   private loadingSubscription: Subscription;
@@ -42,17 +56,21 @@ export class LoginComponent {
     private message: NzMessageService,
     private loadingService: LoadingService
   ) {
-    this.loadingSubscription = this.loadingService.isLoading$().subscribe(isLoading => {
-      this.isLoading = isLoading;
-    });
+    this.loadingSubscription = this.loadingService
+      .isLoading$()
+      .subscribe((isLoading) => {
+        this.isLoading = isLoading;
+      });
   }
 
   ngOnInit(): void {
-    this.router.queryParams.subscribe(params => {
+    this.router.queryParams.subscribe((params) => {
       if (params['messageError']) {
-        this.authService.logoutRedirect()
+        this.authService.logoutRedirect();
         this.mensajeError = params['messageError'].replace(/\\n/g, '\n');
-        this.message.error(`<b>¡Ups!</b> ${this.mensajeError}`, { nzDuration: 2500 })
+        this.message.error(`<b>¡Ups!</b> ${this.mensajeError}`, {
+          nzDuration: 2500,
+        });
       }
     });
 
@@ -64,18 +82,21 @@ export class LoginComponent {
       },
       error: (error) => {
         console.error('Error al manejar la redirección', error);
-      }
+      },
     });
-
 
     this.setLoginDisplay();
     this.msalBroadcastService.msalSubject$
       .pipe(
-        filter((msg: EventMessage) => msg.eventType === EventType.ACCOUNT_ADDED || msg.eventType === EventType.ACCOUNT_REMOVED),
+        filter(
+          (msg: EventMessage) =>
+            msg.eventType === EventType.ACCOUNT_ADDED ||
+            msg.eventType === EventType.ACCOUNT_REMOVED
+        )
       )
       .subscribe((result: EventMessage) => {
         if (this.authService.instance.getAllAccounts().length === 0) {
-          window.location.pathname = "/";
+          window.location.pathname = '/';
         } else {
           this.setLoginDisplay();
         }
@@ -92,7 +113,10 @@ export class LoginComponent {
   checkAndSetActiveAccount() {
     let activeAccount = this.authService.instance.getActiveAccount();
 
-    if (!activeAccount && this.authService.instance.getAllAccounts().length > 0) {
+    if (
+      !activeAccount &&
+      this.authService.instance.getAllAccounts().length > 0
+    ) {
       let accounts = this.authService.instance.getAllAccounts();
       this.authService.instance.setActiveAccount(accounts[0]);
     }
@@ -111,7 +135,7 @@ export class LoginComponent {
       },
       error: (error) => {
         console.error('Login failed', error);
-      }
+      },
     });
   }
 
