@@ -15,7 +15,6 @@ import { OsComponent } from './pages/panel/os/os.component';
 import { BackendComponent } from './pages/integration/backend/backend.component';
 import { FrontendComponent } from './pages/integration/frontend/frontend.component';
 import { ServerComponent } from './pages/panel/server/server.component';
-import { AppComponent } from './app.component';
 import { MsalGuard } from '@azure/msal-angular';
 
 export const routes: Routes = [
