@@ -27,12 +27,9 @@ export const routes: Routes = [
       {
         path: '',
         component: WelcomeComponent,
-        canActivate: [
-          MsalGuard,
-          AuthGuard
-        ]
-      }
-    ]
+        canActivate: [MsalGuard, AuthGuard],
+      },
+    ],
   },
   {
     path: 'configuration',
@@ -41,25 +38,19 @@ export const routes: Routes = [
       {
         path: 'project/role',
         component: RoleProjectComponent,
-        canActivate: [
-          MsalGuard,
-          AuthGuard
-        ]
+        canActivate: [MsalGuard, AuthGuard],
       },
       {
         path: 'user',
         component: UserComponent,
-        canActivate: [MsalGuard, AuthGuard]
+        canActivate: [MsalGuard, AuthGuard],
       },
       {
         path: 'type/user',
         component: UserTypeComponent,
-        canActivate: [
-          MsalGuard,
-          AuthGuard
-        ]
-      }
-    ]
+        canActivate: [MsalGuard, AuthGuard],
+      },
+    ],
   },
   {
     path: 'panel',
@@ -68,60 +59,39 @@ export const routes: Routes = [
       {
         path: 'enviroment',
         component: EnviromentComponent,
-        canActivate: [
-          MsalGuard,
-          AuthGuard
-        ]
+        canActivate: [MsalGuard, AuthGuard],
       },
       {
         path: 'DB',
         component: DbComponent,
-        canActivate: [
-          MsalGuard,
-          AuthGuard
-        ]
+        canActivate: [MsalGuard, AuthGuard],
       },
       {
         path: 'document',
         component: DocumentComponent,
-        canActivate: [
-          MsalGuard,
-          AuthGuard
-        ]
+        canActivate: [MsalGuard, AuthGuard],
       },
       {
         path: 'language',
         component: languageComponent,
-        canActivate: [
-          MsalGuard,
-          AuthGuard
-        ]
+        canActivate: [MsalGuard, AuthGuard],
       },
       {
         path: 'engine',
         component: EngineComponent,
-        canActivate: [
-          MsalGuard,
-          AuthGuard
-        ]
+        canActivate: [MsalGuard, AuthGuard],
       },
       {
         path: 'OS',
         component: OsComponent,
-        canActivate: [
-          MsalGuard,
-          AuthGuard
-        ]
+        canActivate: [MsalGuard, AuthGuard],
       },
       {
         path: 'server',
         component: ServerComponent,
-        canActivate: [
-          MsalGuard,
-          AuthGuard
-        ]
-      }
-    ]
+        canActivate: [MsalGuard, AuthGuard],
+      },
+    ],
   },
   {
     path: 'integration',
@@ -130,19 +100,13 @@ export const routes: Routes = [
       {
         path: 'backend',
         component: BackendComponent,
-        canActivate: [
-          MsalGuard,
-          AuthGuard
-        ]
+        canActivate: [MsalGuard, AuthGuard],
       },
       {
         path: 'frontend',
         component: FrontendComponent,
-        canActivate: [
-          MsalGuard,
-          AuthGuard
-        ]
-      }
-    ]
-  }
+        canActivate: [MsalGuard, AuthGuard],
+      },
+    ],
+  },
 ];
