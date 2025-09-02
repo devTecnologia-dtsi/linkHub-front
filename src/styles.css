@@ -1,1 +1,28 @@
 /* You can add global styles to this file, and also import other style files */
+.contenido {
+  position: relative;
+  display: inline-block;
+}
+
+.label-placeholder {
+  position: absolute;
+  top: 5px;
+  left: 12px;
+  pointer-events: none;
+  cursor: text;
+  color: #383838 !important;
+  font-weight: bold;
+}
+::placeholder {
+  font-weight: bold;
+  color: #383838;
+}
+
+.input-transparente:focus+.label-placeholder {
+  display: none;
+}
+
+.input-transparente:not(:placeholder-shown)+.label-placeholder,
+.input-transparente[value]:not(:empty)+.label-placeholder {
+  display: none;
+}
