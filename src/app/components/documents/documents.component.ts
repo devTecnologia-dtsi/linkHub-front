@@ -199,7 +199,7 @@ export class DocumentsComponent {
       this.serviceDocument.getDocumentActives().subscribe((data: any) => {
         this.isLoadingDocument = false
         if (data.ok != undefined && data.ok == false) {
-          this.message.error('<b>!Ups!</b> Hubo un error al obtener los documentos', { nzDuration: 2500 })
+          this.message.error('<b>¡Ups!</b> Hubo un error al obtener los documentos', { nzDuration: 2500 })
           return
         }
         if (data.resp != undefined && !data.resp) {

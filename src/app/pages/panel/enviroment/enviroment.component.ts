@@ -104,7 +104,7 @@ export class EnviromentComponent {
       .subscribe((data: any) => {
         this.isLoading = false
         if (data.ok != undefined && data.ok == false) {
-          this.message.error('!Ups! Hubo un error al obtener los ambientes', { nzDuration: 2500 })
+          this.message.error('¡Ups! Hubo un error al obtener los ambientes', { nzDuration: 2500 })
           return
         }
         this.listOfData = data.data
@@ -146,15 +146,15 @@ export class EnviromentComponent {
     this.serviceEnviroment.changeState(dataChange.id).subscribe((data: any) => {
       dataChange.loading = false
       if (data.ok != undefined && data.ok == false) {
-        this.message.error('<b>!Ups!</b> Hubo un error al actualizar el ambiente', { nzDuration: 2500 })
+        this.message.error('<b>¡Ups!</b> Hubo un error al actualizar el ambiente', { nzDuration: 2500 })
         return
       }
       if (data.resp != undefined && !data.resp) {
-        this.message.error(`<b>!Ups!</b> ${data.message}`, { nzDuration: 2500 })
+        this.message.error(`<b>¡Ups!</b> ${data.message}`, { nzDuration: 2500 })
         return
       }
       dataChange.activo = !dataChange.activo
-      this.message.success(`<b>!Excelente!</b> ${data.message}`, { nzDuration: 2500 })
+      this.message.success(`<b>¡Excelente!</b> ${data.message}`, { nzDuration: 2500 })
     })
   }
 
@@ -177,14 +177,14 @@ export class EnviromentComponent {
         .subscribe((data: any) => {
           this.isSaving = false
           if (data.ok != undefined && data.ok == false) {
-            this.message.error('<b>!Ups!</b> Hubo un error al editar el ambiente', { nzDuration: 2500 })
+            this.message.error('<b>¡Ups!</b> Hubo un error al editar el ambiente', { nzDuration: 2500 })
             return
           }
           if (data.resp != undefined && !data.resp) {
-            this.message.error(`<b>!Ups!</b> ${data.message}`, { nzDuration: 2500 })
+            this.message.error(`<b>¡Ups!</b> ${data.message}`, { nzDuration: 2500 })
             return
           }
-          this.message.success('<b>!Excelente!</b> Se actualizo el ambiente con éxito', { nzDuration: 2500 })
+          this.message.success('<b>¡Excelente!</b> Se actualizo el ambiente con éxito', { nzDuration: 2500 })
           this.drawerRef.close()
           this.edit = false
           this.listOfData = this.listOfData.map((data) => {
@@ -203,14 +203,14 @@ export class EnviromentComponent {
         .subscribe((data: any) => {
           this.isSaving = false
           if (data.ok != undefined && data.ok == false) {
-            this.message.error('<b>!Ups!</b> Hubo un error al guardar el ambiente', { nzDuration: 2500 })
+            this.message.error('<b>¡Ups!</b> Hubo un error al guardar el ambiente', { nzDuration: 2500 })
             return
           }
           if (data.resp != undefined && !data.resp) {
-            this.message.error(`<b>!Ups!</b> ${data.message}`, { nzDuration: 2500 })
+            this.message.error(`<b>¡Ups!</b> ${data.message}`, { nzDuration: 2500 })
             return
           }
-          this.message.success('<b>!Excelente!</b> Se guardo el ambiente con éxito', { nzDuration: 2500 })
+          this.message.success('<b>¡Excelente!</b> Se guardo el ambiente con éxito', { nzDuration: 2500 })
           this.getData()
           this.drawerRef.close()
         })

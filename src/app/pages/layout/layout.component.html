@@ -1,117 +1,194 @@
 <nz-layout class="layout">
+  <nz-layout>
+    <!-- Sidebar (oculto en pantallas pequeñas) -->
+    <nz-sider
+      class="menu-sidebar"
+      nzCollapsible
+      nzWidth="256px"
+      nzBreakpoint="md"
+      [(nzCollapsed)]="isCollapsed"
+      [nzTrigger]="null"
+      [nzCollapsedWidth]="0"
+      [nzZeroTrigger]="triggerTemplate"
+    >
+      <div class="sidebar-logo">
+        <a [routerLink]="['/dashboard']">
+          <img src="../assets/logo.png" alt="LinkHub" />
+          <h1>UNIMINUTO</h1>
+        </a>
+      </div>
+      <ul
+        nz-menu
+        nzTheme="dark"
+        nzMode="inline"
+        [nzInlineCollapsed]="isCollapsed"
+      >
+        @if (tipoUsuario == "1") {
+        <li nz-submenu nzTitle="Configuracion" nzIcon="user">
+          <ul>
+            <li nz-menu-item nzMatchRouter>
+              <a
+                [routerLink]="['/configuration/user']"
+                routerLinkActive="router-link-active"
+                >Usuarios</a
+              >
+            </li>
+            <li nz-menu-item nzMatchRouter>
+              <a
+                [routerLink]="['/configuration/project/role']"
+                routerLinkActive="router-link-active"
+                >Roles Proyectos</a
+              >
+            </li>
+            <li nz-menu-item nzMatchRouter>
+              <a
+                [routerLink]="['/configuration/type/user']"
+                routerLinkActive="router-link-active"
+                >Tipo de Usuario</a
+              >
+            </li>
+          </ul>
+        </li>
+
+        <li nz-submenu nzTitle="Panel de Configuracion" nzIcon="setting">
+          <ul>
+            <li nz-menu-item nzMatchRouter>
+              <a
+                [routerLink]="['/panel/enviroment']"
+                routerLinkActive="router-link-active"
+                >Ambientes</a
+              >
+            </li>
+            <li nz-menu-item nzMatchRouter>
+              <a
+                [routerLink]="['/panel/DB']"
+                routerLinkActive="router-link-active"
+                >DB</a
+              >
+            </li>
+            <li nz-menu-item nzMatchRouter>
+              <a
+                [routerLink]="['/panel/document']"
+                routerLinkActive="router-link-active"
+                >Documentos</a
+              >
+            </li>
+            <li nz-menu-item nzMatchRouter>
+              <a
+                [routerLink]="['/panel/language']"
+                routerLinkActive="router-link-active"
+                >Lenguajes</a
+              >
+            </li>
+            <li nz-menu-item nzMatchRouter>
+              <a
+                [routerLink]="['/panel/engine']"
+                routerLinkActive="router-link-active"
+                >Motores (DB)</a
+              >
+            </li>
+            <li nz-menu-item nzMatchRouter>
+              <a
+                [routerLink]="['/panel/server']"
+                routerLinkActive="router-link-active"
+                >Servidores</a
+              >
+            </li>
+            <li nz-menu-item nzMatchRouter>
+              <a
+                [routerLink]="['/panel/OS']"
+                routerLinkActive="router-link-active"
+                >Sistemas Operativos</a
+              >
+            </li>
+          </ul>
+        </li>
+        }
+        <li nz-submenu nzTitle="Integraciones" nzIcon="api">
+          <ul>
+            <li nz-menu-item nzMatchRouter>
+              <a
+                [routerLink]="['/integration/backend']"
+                routerLinkActive="router-link-active"
+                >Backend</a
+              >
+            </li>
+            <li nz-menu-item nzMatchRouter>
+              <a
+                [routerLink]="['/integration/frontend']"
+                routerLinkActive="router-link-active"
+                >Frontends</a
+              >
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </nz-sider>
+
     <nz-layout>
-        <!-- Sidebar (oculto en pantallas pequeñas) -->
-        <nz-sider class="menu-sidebar" nzCollapsible nzWidth="256px" nzBreakpoint="md" [(nzCollapsed)]="isCollapsed"
-            [nzTrigger]="null" [nzCollapsedWidth]="0" [nzZeroTrigger]="triggerTemplate">
-            <div class="sidebar-logo">
-                <a [routerLink]="['/dashboard']">
-                    <img src="../assets/logo.png" alt="logo">
-                    <h1>UNIMINUTO</h1>
-                </a>
+      <nz-header>
+        <div class="app-header">
+          <div class="position-relative">
+            <ng-template #triggerTemplate>
+              <span class="header-trigger" (click)="isCollapsed = !isCollapsed">
+                <span
+                  class="trigger"
+                  nz-icon
+                  [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
+                ></span>
+              </span>
+            </ng-template>
+            <div class="position-absolute top-0 start-0">
+              <span class="header-trigger" (click)="isCollapsed = !isCollapsed">
+                <span
+                  class="trigger"
+                  nz-icon
+                  [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
+                ></span>
+              </span>
             </div>
-            <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
-                @if (tipoUsuario == "1") {
-                <li nz-submenu nzTitle="Configuracion" nzIcon="user">
-                    <ul>
-                        <li nz-menu-item nzMatchRouter>
-                            <a [routerLink]="['/configuration/user']" routerLinkActive="router-link-active">Usuarios</a>
-                        </li>
-                        <li nz-menu-item nzMatchRouter>
-                            <a [routerLink]="['/configuration/project/role']"
-                                routerLinkActive="router-link-active">Roles Proyectos</a>
-                        </li>
-                        <li nz-menu-item nzMatchRouter>
-                            <a [routerLink]="['/configuration/type/user']" routerLinkActive="router-link-active">Tipo de
-                                Usuario</a>
-                        </li>
-                    </ul>
-                </li>
-
-                <li nz-submenu nzTitle="Panel de Configuracion" nzIcon="setting">
-                    <ul>
-                        <li nz-menu-item nzMatchRouter>
-                            <a [routerLink]="['/panel/enviroment']" routerLinkActive="router-link-active">Ambientes</a>
-                        </li>
-                        <li nz-menu-item nzMatchRouter>
-                            <a [routerLink]="['/panel/DB']" routerLinkActive="router-link-active">DB</a>
-                        </li>
-                        <li nz-menu-item nzMatchRouter>
-                            <a [routerLink]="['/panel/document']" routerLinkActive="router-link-active">Documentos</a>
-                        </li>
-                        <li nz-menu-item nzMatchRouter>
-                            <a [routerLink]="['/panel/language']" routerLinkActive="router-link-active">Lenguajes</a>
-                        </li>
-                        <li nz-menu-item nzMatchRouter>
-                            <a [routerLink]="['/panel/engine']" routerLinkActive="router-link-active">Motores (DB)</a>
-                        </li>
-                        <li nz-menu-item nzMatchRouter>
-                            <a [routerLink]="['/panel/server']" routerLinkActive="router-link-active">Servidores</a>
-                        </li>
-                        <li nz-menu-item nzMatchRouter>
-                            <a [routerLink]="['/panel/OS']" routerLinkActive="router-link-active">Sistemas
-                                Operativos</a>
-                        </li>
-                    </ul>
-                </li>
-                }
-                <li nz-submenu nzTitle="Integraciones" nzIcon="api">
-                    <ul>
-                        <li nz-menu-item nzMatchRouter>
-                            <a [routerLink]="['/integration/backend']" routerLinkActive="router-link-active">Backend</a>
-                        </li>
-                        <li nz-menu-item nzMatchRouter>
-                            <a [routerLink]="['/integration/frontend']"
-                                routerLinkActive="router-link-active">Frontends</a>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-        </nz-sider>
-
-        <nz-layout>
-            <nz-header>
-                <div class="app-header">
-                    <div class="position-relative">
-                        <ng-template #triggerTemplate>
-                            <span class="header-trigger" (click)="isCollapsed = !isCollapsed">
-                                <span class="trigger" nz-icon
-                                    [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"></span>
-                            </span>
-                        </ng-template>
-                        <div class="position-absolute top-0 start-0">
-                            <span class="header-trigger" (click)="isCollapsed = !isCollapsed">
-                                <span class="trigger" nz-icon
-                                    [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"></span>
-                            </span>
-                        </div>
-                        <div class="position-absolute top-0 end-0 pe-2">
-                            <a nz-dropdown [nzDropdownMenu]="menu" nzPlacement="bottomCenter">
-                                <nz-badge nzStatus="success"></nz-badge>
-                                <nz-avatar nzText="A" nzSize="large"
-                                    style="color:#f56a00; background-color:#fde3cf;"></nz-avatar>
-                            </a>
-                            <nz-dropdown-menu #menu="nzDropdownMenu">
-                                <nz-card style="width:300px;" [nzActions]="[actionLogout]">
-                                    <nz-card-meta nzTitle="{{nombreUsuario}}" nzDescription="{{cargoUsuario}}"
-                                        [nzAvatar]="avatarTemplate"></nz-card-meta>
-                                </nz-card>
-                                <ng-template #avatarTemplate>
-                                    <nz-avatar nzText="A" nzSize="large"
-                                        style="color:#f56a00; background-color:#fde3cf;"></nz-avatar>
-                                </ng-template>
-                                <ng-template #actionLogout>
-                                    <span (click)="logout()" nz-icon nzType="logout" nzTheme="outline"></span>
-                                </ng-template>
-                            </nz-dropdown-menu>
-                        </div>
-                    </div>
-                </div>
-            </nz-header>
-            <nz-content>
-                <div class="inner-content">
-                    <router-outlet></router-outlet>
-                </div>
-            </nz-content>
-        </nz-layout>
+            <div class="position-absolute top-0 end-0 pe-2">
+              <a nz-dropdown [nzDropdownMenu]="menu" nzPlacement="bottomCenter">
+                <nz-badge nzStatus="success"></nz-badge>
+                <nz-avatar
+                  nzText="A"
+                  nzSize="large"
+                  style="color: #f56a00; background-color: #fde3cf"
+                ></nz-avatar>
+              </a>
+              <nz-dropdown-menu #menu="nzDropdownMenu">
+                <nz-card style="width: 300px" [nzActions]="[actionLogout]">
+                  <nz-card-meta
+                    nzTitle="{{ nombreUsuario }}"
+                    nzDescription="{{ cargoUsuario }}"
+                    [nzAvatar]="avatarTemplate"
+                  ></nz-card-meta>
+                </nz-card>
+                <ng-template #avatarTemplate>
+                  <nz-avatar
+                    nzText="A"
+                    nzSize="large"
+                    style="color: #f56a00; background-color: #fde3cf"
+                  ></nz-avatar>
+                </ng-template>
+                <ng-template #actionLogout>
+                  <span
+                    (click)="logout()"
+                    nz-icon
+                    nzType="logout"
+                    nzTheme="outline"
+                  ></span>
+                </ng-template>
+              </nz-dropdown-menu>
+            </div>
+          </div>
+        </div>
+      </nz-header>
+      <nz-content>
+        <div class="inner-content">
+          <router-outlet></router-outlet>
+        </div>
+      </nz-content>
     </nz-layout>
+  </nz-layout>
 </nz-layout>

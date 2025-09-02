@@ -111,10 +111,10 @@ export class BackendComponent {
   validateForm: FormGroup<FormBackend> = this.fb.group({
     autenticacion: ['', [Validators.required]],
     body: ['', []],
-    coleccion: ['', [Validators.required, forbiddenNameValidator(/^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(:\d{1,5})?(\/[^\s]*)?$/)]],
+    coleccion: ['', [Validators.required, forbiddenNameValidator([/^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(:\d{1,5})?(\/[^\s]*)?$/])]],
     id_lenguaje: ['', [Validators.required]],
     metodo: ['', [Validators.required]],
-    url_versionamiento: ['', [Validators.required, forbiddenNameValidator(/^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(:\d{1,5})?(\/[^\s]*)?$/)]],
+    url_versionamiento: ['', [Validators.required, forbiddenNameValidator([/^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(:\d{1,5})?(\/[^\s]*)?$/])]],
     nombre_backend: ['', [Validators.required]],
     endpoint: ['', [Validators.required]]
   });
@@ -195,7 +195,7 @@ export class BackendComponent {
       .subscribe((data: any) => {
         this.isLoading = false
         if (data.ok != undefined && data.ok == false) {
-          this.message.error('!Ups! Hubo un error al obtener los backends', { nzDuration: 2500 })
+          this.message.error('¡Ups! Hubo un error al obtener los backends', { nzDuration: 2500 })
           return
         }
         const dataConverted = data.data.map(({ documentos, servidores, responsables, ...rest }: any ) => {
@@ -274,7 +274,7 @@ export class BackendComponent {
         .subscribe((data: any) => {
           this.isSaving = false
           if (data.ok != undefined && data.ok == false) {
-            this.message.error('<b>!Ups!</b> Hubo un error al editar el frontend', { nzDuration: 2500 })
+            this.message.error('<b>¡Ups!</b> Hubo un error al editar el frontend', { nzDuration: 2500 })
             return
           }
           if (data.resp != undefined && !data.resp) {
@@ -311,7 +311,7 @@ export class BackendComponent {
         .subscribe((data: any) => {
           this.isSaving = false
           if (data.ok != undefined && data.ok == false) {
-            this.message.error('<b>!Ups!</b> Hubo un error al guardar el backend', { nzDuration: 2500 })
+            this.message.error('<b>¡Ups!</b> Hubo un error al guardar el backend', { nzDuration: 2500 })
             return
           }
           if (data.resp != undefined && !data.resp) {
@@ -331,7 +331,7 @@ export class BackendComponent {
       this.serviceLenguage.getLanguageActive().subscribe((data: any) => {
         this.isLoadingLenguage = false;
         if (data.ok != undefined && data.ok == false) {
-          this.message.error('<b>!Ups!</b> Hubo un error al obtener los lenguajes', { nzDuration: 2500 })
+          this.message.error('<b>¡Ups!</b> Hubo un error al obtener los lenguajes', { nzDuration: 2500 })
           return
         }
         if (data.resp != undefined && !data.resp) {
@@ -346,7 +346,7 @@ export class BackendComponent {
     }
   }
 
-  close(): void {    
+  close(): void {
     this.drawerRef.close()
     this.dataForm = this.globalService.createDefaultObject<DataTableBackend>({
       activo: false,

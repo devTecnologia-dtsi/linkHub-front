@@ -110,7 +110,7 @@ export class FrontendComponent {
     nombre_proyecto: ['', [Validators.required]],
     descripcion_proyecto: ['', [Validators.required]],
     url: ['', [Validators.required]],
-    url_versionamiento: ['', [Validators.required, forbiddenNameValidator(/^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(:\d{1,5})?(\/[^\s]*)?$/)]],
+    url_versionamiento: ['', [Validators.required, forbiddenNameValidator([/^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(:\d{1,5})?(\/[^\s]*)?$/])]],
     id_lenguaje: ['', [Validators.required]],
     tipoApp: [false, [Validators.required]]
   });
@@ -233,11 +233,11 @@ export class FrontendComponent {
     this.serviceFrontend.changeState(dataChange.id).subscribe((data: any) => {
       dataChange.loading = false
       if (data.ok != undefined && data.ok == false) {
-        this.message.error('<b>!Ups!</b> Hubo un error al eliminar el frontend', { nzDuration: 2500 })
+        this.message.error('<b>¡Ups!</b> Hubo un error al eliminar el frontend', { nzDuration: 2500 })
         return
       }
       if (data.resp != undefined && !data.resp) {
-        this.message.error(`<b>!Ups!</b> ${data.message}`, { nzDuration: 2500 })
+        this.message.error(`<b>¡Ups!</b> ${data.message}`, { nzDuration: 2500 })
         return
       }
       dataChange.activo = !dataChange.activo
@@ -265,7 +265,7 @@ export class FrontendComponent {
         .subscribe((data: any) => {
           this.isSaving = false
           if (data.ok != undefined && data.ok == false) {
-            this.message.error('<b>!Ups!</b> Hubo un error al editar el frontend', { nzDuration: 2500 })
+            this.message.error('<b>¡Ups!</b> Hubo un error al editar el frontend', { nzDuration: 2500 })
             return
           }
           if (data.resp != undefined && !data.resp) {
@@ -300,7 +300,7 @@ export class FrontendComponent {
         .subscribe((data: any) => {
           this.isSaving = false
           if (data.ok != undefined && data.ok == false) {
-            this.message.error('<b>!Ups!</b> Hubo un error al guardar el frontend', { nzDuration: 2500 })
+            this.message.error('<b>¡Ups!</b> Hubo un error al guardar el frontend', { nzDuration: 2500 })
             return
           }
           if (data.resp != undefined && !data.resp) {
@@ -321,7 +321,7 @@ export class FrontendComponent {
       this.serviceLenguage.getAllLanguage().subscribe((data: any) => {
         this.isLoadingLenguage = false;
         if (data.ok != undefined && data.ok == false) {
-          this.message.error('<b>!Ups!</b> Hubo un error al obtener los lenguajes', { nzDuration: 2500 })
+          this.message.error('<b>¡Ups!</b> Hubo un error al obtener los lenguajes', { nzDuration: 2500 })
           return
         }
         if (data.resp != undefined && !data.resp) {

@@ -157,7 +157,7 @@ export class ServerComponent {
       .subscribe((data: any) => {
         this.isLoading = false
         if (data.ok != undefined && data.ok == false) {
-          this.message.error('!Ups! Hubo un error al obtener los servidores', { nzDuration: 2500 })
+          this.message.error('¡Ups! Hubo un error al obtener los servidores', { nzDuration: 2500 })
           return
         }
         this.listOfData = data.data;
@@ -214,11 +214,11 @@ export class ServerComponent {
     this.serviceServer.changeState(dataChange.id).subscribe((data: any) => {
       dataChange.loading = false
       if (data.ok != undefined && data.ok == false) {
-        this.message.error('<b>!Ups!</b> Hubo un error al eliminar el servidor', { nzDuration: 2500 })
+        this.message.error('<b>¡Ups!</b> Hubo un error al eliminar el servidor', { nzDuration: 2500 })
         return
       }
       if (data.resp != undefined && !data.resp) {
-        this.message.error(`<b>!Ups!</b> ${data.message}`, { nzDuration: 2500 })
+        this.message.error(`<b>¡Ups!</b> ${data.message}`, { nzDuration: 2500 })
         return
       }
       dataChange.activo = !dataChange.activo
@@ -251,7 +251,7 @@ export class ServerComponent {
         .subscribe((data: any) => {
           this.isSaving = false
           if (data.ok != undefined && data.ok == false) {
-            this.message.error('<b>!Ups!</b> Hubo un error al editar el servidor', { nzDuration: 2500 })
+            this.message.error('<b>¡Ups!</b> Hubo un error al editar el servidor', { nzDuration: 2500 })
             return
           }
           if (data.resp != undefined && !data.resp) {
@@ -283,7 +283,7 @@ export class ServerComponent {
         .subscribe((data: any) => {
           this.isSaving = false
           if (data.ok != undefined && data.ok == false) {
-            this.message.error('<b>!Ups!</b> Hubo un error al guardar el motor', { nzDuration: 2500 })
+            this.message.error('<b>¡Ups!</b> Hubo un error al guardar el motor', { nzDuration: 2500 })
             return
           }
           if (data.resp != undefined && !data.resp) {

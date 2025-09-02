@@ -207,7 +207,7 @@ export class ResponsableComponent {
       this.serviceUser.getUsersActives().subscribe((data: any) => {
         this.isLoadingResponsible = false
         if (data.ok != undefined && data.ok == false) {
-          this.message.error('<b>!Ups!</b> Hubo un error al obtener los usuarios', { nzDuration: 2500 })
+          this.message.error('<b>¡Ups!</b> Hubo un error al obtener los usuarios', { nzDuration: 2500 })
           return
         }
         if (data.resp != undefined && !data.resp) {
@@ -228,7 +228,7 @@ export class ResponsableComponent {
       this.serviceRol.getAllRoleProjects().subscribe((data: any) => {
         this.isLoadingRol = false
         if (data.ok != undefined && data.ok == false) {
-          this.message.error('<b>!Ups!</b> Hubo un error al obtener los roles', { nzDuration: 2500 })
+          this.message.error('<b>¡Ups!</b> Hubo un error al obtener los roles', { nzDuration: 2500 })
           return
         }
         if (data.resp != undefined && !data.resp) {

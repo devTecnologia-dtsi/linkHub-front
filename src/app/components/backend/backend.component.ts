@@ -193,7 +193,7 @@ export class BackendComponent {
       this.serviceBackend.getBackendsActives().subscribe((data: any) => {
         this.isLoadingBackend = false
         if (data.ok != undefined && data.ok == false) {
-          this.message.error('<b>!Ups!</b> Hubo un error al obtener los backends', { nzDuration: 2500 })
+          this.message.error('<b>¡Ups!</b> Hubo un error al obtener los backends', { nzDuration: 2500 })
           return
         }
         if (data.resp != undefined && !data.resp) {

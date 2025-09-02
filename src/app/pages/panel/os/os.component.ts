@@ -112,7 +112,7 @@ export class OsComponent {
       .subscribe((data: any) => {
         this.isLoading = false
         if (data.ok != undefined && data.ok == false) {
-          this.message.error('!Ups! Hubo un error al obtener los sistemas operativos', { nzDuration: 2500 })
+          this.message.error('¡Ups! Hubo un error al obtener los sistemas operativos', { nzDuration: 2500 })
           return
         }
         this.listOfData = data.data
@@ -154,15 +154,15 @@ export class OsComponent {
     this.serviceOs.changeState(dataChange.id).subscribe((data: any) => {
       dataChange.loading = false
       if (data.ok != undefined && data.ok == false) {
-        this.message.error('<b>!Ups!</b> Hubo un error al actualizar el sistema operativo', { nzDuration: 2500 })
+        this.message.error('<b>¡Ups!</b> Hubo un error al actualizar el sistema operativo', { nzDuration: 2500 })
         return
       }
       if (data.resp != undefined && !data.resp) {
-        this.message.error(`<b>!Ups!</b> ${data.message}`, { nzDuration: 2500 })
+        this.message.error(`<b>¡Ups!</b> ${data.message}`, { nzDuration: 2500 })
         return
       }
       dataChange.activo = !dataChange.activo
-      this.message.success('<b>!Excelente!</b> Se actualizó con éxito el sistema operativo', { nzDuration: 2500 })
+      this.message.success('<b>¡Excelente!</b> Se actualizó con éxito el sistema operativo', { nzDuration: 2500 })
     })
   }
 
@@ -189,14 +189,14 @@ export class OsComponent {
         .subscribe((data: any) => {
           this.isSaving = false
           if (data.ok != undefined && data.ok == false) {
-            this.message.error('<b>!Ups!</b> Hubo un error al editar el sistema operativo', { nzDuration: 2500 })
+            this.message.error('<b>¡Ups!</b> Hubo un error al editar el sistema operativo', { nzDuration: 2500 })
             return
           }
           if (data.resp != undefined && !data.resp) {
             this.message.error(`<b>¡Ups!</b> ${data.message}`, { nzDuration: 2500 })
             return
           }
-          this.message.success('<b>!Excelente!</b> Se actulizo el sistema operativo con exito', { nzDuration: 2500 })
+          this.message.success('<b>¡Excelente!</b> Se actulizo el sistema operativo con exito', { nzDuration: 2500 })
           this.drawerRef.close()
           this.edit = false
           this.listOfData = this.listOfData.map((data) => {
@@ -220,7 +220,7 @@ export class OsComponent {
         .subscribe((data: any) => {
           this.isSaving = false
           if (data.ok != undefined && data.ok == false) {
-            this.message.error('<b>!Ups!</b> Hubo un error al guardar el sistema operativo', { nzDuration: 2500 })
+            this.message.error('<b>¡Ups!</b> Hubo un error al guardar el sistema operativo', { nzDuration: 2500 })
             return
           }
           if (data.resp != undefined && !data.resp) {

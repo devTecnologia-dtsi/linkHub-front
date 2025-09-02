@@ -192,7 +192,7 @@ export class ServerComponent {
       this.serviceServer.getAllServersActivos().subscribe((data: any) => {
         this.isLoadingServers = false
         if (data.ok != undefined && data.ok == false) {
-          this.message.error('<b>!Ups!</b> Hubo un error al obtener los servidores', { nzDuration: 2500 })
+          this.message.error('<b>¡Ups!</b> Hubo un error al obtener los servidores', { nzDuration: 2500 })
           return
         }
         if (data.resp != undefined && !data.resp) {

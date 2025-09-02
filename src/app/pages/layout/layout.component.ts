@@ -8,9 +8,7 @@ import { NzBadgeModule } from 'ng-zorro-antd/badge';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { CommonModule } from '@angular/common';
-import { MsalBroadcastService, MsalService } from '@azure/msal-angular';
-import { AuthenticationResult, EventMessage, EventType, InteractionStatus } from '@azure/msal-browser';
-import { filter } from 'rxjs/operators';
+import { MsalService } from '@azure/msal-angular';
 import { AccesoUsuarioService } from '../../service/auth/acceso-service';
 
 @Component({
@@ -26,23 +24,22 @@ import { AccesoUsuarioService } from '../../service/auth/acceso-service';
     NzDropDownModule,
     NzCardModule,
     RouterModule,
-    CommonModule
+    CommonModule,
   ],
   templateUrl: './layout.component.html',
-  styleUrl: './layout.component.css'
+  styleUrl: './layout.component.css',
 })
 export class LayoutComponent implements OnInit {
   isCollapsed = false;
   loginDisplay = false;
-  nombreUsuario = "";
-  cargoUsuario = "";
-  tipoUsuario = "";
+  nombreUsuario = '';
+  cargoUsuario = '';
+  tipoUsuario = '';
 
   constructor(
     private authService: MsalService,
-    private msalBroadcastService: MsalBroadcastService,
-    private accesouser: AccesoUsuarioService) { }
-
+    private accesouser: AccesoUsuarioService
+  ) {}
 
   ngOnInit(): void {
     const du = this.accesouser.decodeDataUser();
@@ -58,12 +55,11 @@ export class LayoutComponent implements OnInit {
   logout(popup?: boolean) {
     if (popup) {
       this.authService.logoutPopup({
-        mainWindowRedirectUri: "/"
+        mainWindowRedirectUri: '/',
       });
     } else {
       this.authService.logoutRedirect();
     }
     localStorage.clear();
   }
-
 }

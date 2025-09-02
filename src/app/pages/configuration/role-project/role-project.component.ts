@@ -103,7 +103,7 @@ export class RoleProjectComponent {
       .subscribe((data: any) => {
         this.isLoading = false
         if (data.ok != undefined && data.ok == false) {
-          this.message.error('<b>!Ups!</b> Hubo un error al obtener los roles', { nzDuration: 2500 })
+          this.message.error('<b>¡Ups!</b> Hubo un error al obtener los roles', { nzDuration: 2500 })
           return
         }
         this.listOfData = data.data
@@ -153,10 +153,10 @@ export class RoleProjectComponent {
         .subscribe((data: any) => {
           this.isSaving = false
           if (data.resp != undefined && data.resp == false) {
-            this.message.error(`<b>!Ups!</b> ${data.message}`, { nzDuration: 2500 })
+            this.message.error(`<b>¡Ups!</b> ${data.message}`, { nzDuration: 2500 })
             return
           }
-          this.message.success('<b>!Excelente!</b> Se actualizo el rol con éxito', { nzDuration: 2500 })
+          this.message.success('<b>¡Excelente!</b> Se actualizo el rol con éxito', { nzDuration: 2500 })
           this.drawerRef.close()
           this.edit = false
           this.listOfData = this.listOfData.map((data) => {
@@ -170,10 +170,10 @@ export class RoleProjectComponent {
         .subscribe((data: any) => {
           this.isSaving = false
           if (data.resp != undefined && data.resp == false) {
-            this.message.error(`<b>!Ups!</b> ${data.message}`, { nzDuration: 2500 })
+            this.message.error(`<b>¡Ups!</b> ${data.message}`, { nzDuration: 2500 })
             return
           }
-          this.message.success('<b>!Excelente!</b> Se guardo el rol con éxito', { nzDuration: 2500 })
+          this.message.success('<b>¡Excelente!</b> Se guardo el rol con éxito', { nzDuration: 2500 })
           this.getData()
           this.drawerRef.close()
         })
@@ -185,11 +185,11 @@ export class RoleProjectComponent {
     this.serviceRoleProject.changeState(dataChange.id).subscribe((data: any) => {
       dataChange.loading = false
       if (data.ok != undefined && data.ok == false) {
-        this.message.error('<b>!Ups!</b> Hubo un error al eliminar la base de datos', { nzDuration: 2500 })
+        this.message.error('<b>¡Ups!</b> Hubo un error al eliminar la base de datos', { nzDuration: 2500 })
         return
       }
       if (data.resp != undefined && !data.resp) {
-        this.message.error(`<b>!Ups!</b> ${data.message}`, { nzDuration: 2500 })
+        this.message.error(`<b>¡Ups!</b> ${data.message}`, { nzDuration: 2500 })
         return
       }
       dataChange.activo = !dataChange.activo
