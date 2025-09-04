@@ -281,7 +281,7 @@ export class BackendComponent {
             this.message.error(`<b>¡Ups!</b> ${data.message}`, { nzDuration: 2500 })
             return
           }
-          this.message.success('<b>!Execelente!</b> Se actulizo el frontend con exito', { nzDuration: 2500 })
+          this.message.success('<b>¡Execelente!</b> Se actulizo el frontend con exito', { nzDuration: 2500 })
           this.drawerRef.close()
           this.edit = false
           this.getData()

@@ -258,7 +258,7 @@ export class RoleProjectComponent {
           dataChange.activo = !dataChange.activo;
           return;
         }
-        this.message.success(`<b>!Execelente!</b> ${data.message}`, {
+        this.message.success(`<b>¡Execelente!</b> ${data.message}`, {
           nzDuration: 2500,
         });
       });

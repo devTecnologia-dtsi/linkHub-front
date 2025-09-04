@@ -242,7 +242,7 @@ export class DbComponent {
         dataChange.activo = !dataChange.activo;
         return;
       }
-      this.message.success(`<b>!Execelente!</b> ${data.message}`, {
+      this.message.success(`<b>¡Execelente!</b> ${data.message}`, {
         nzDuration: 2500,
       });
     });
@@ -278,7 +278,7 @@ export class DbComponent {
             return;
           }
           this.message.success(
-            '<b>!Execelente!</b> Se actulizo la base de datos con exito',
+            '<b>¡Execelente!</b> Se actulizo la base de datos con exito',
             { nzDuration: 2500 }
           );
           this.drawerRef.close();
