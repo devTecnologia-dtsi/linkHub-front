@@ -1,128 +1,250 @@
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-12 d-flex bd-highlight flex-wrap">
-            <div class="me-auto p-2 bd-highlight">
-                <button nz-button nzType="primary" (click)="openTemplate()">
-                    <span nz-icon nzType="plus"></span>
-                </button>
-            </div>
-            <div class="bd-highlight p-2">
-                <nz-input-group nzSearch [nzAddOnAfter]="suffixButton">
-                    <input type="text" [(ngModel)]="searchValue" nz-input placeholder="Buscar" />
-                </nz-input-group>
-                <ng-template #suffixButton>
-                    <button nz-button nzType="primary" (click)="search()">
-                        <i nz-icon nzType="search"></i>Buscar
-                    </button>
-                </ng-template>
-            </div>
-            <div class="bd-highlight p-2">
-                <button nz-button nzType="primary">
-                    <i nz-icon nzType="clear" (click)="reset()"></i>
-                </button>
-            </div>
-        </div>
+<div class="d-flex bd-highlight">
+  <div class="me-auto bd-highlight">
+    <button
+      nzTooltipTitle="Agregar Usuario"
+      nzTooltipPlacement="top"
+      nz-button
+      nzType="primary"
+      (click)="openTemplate()"
+      nz-tooltip
+    >
+      <span nz-icon nzType="plus">
+        <span class="visually-hidden">Agregar</span>
+      </span>
+    </button>
+  </div>
+  <div class="bd-highlight">
+    <div class="contenido">
+      <nz-input-group nzSearch [nzAddOnAfter]="suffixButton">
+        <input
+          type="text"
+          [(ngModel)]="searchValue"
+          nz-input
+          placeholder="buscar"
+          id="buscar"
+          name="buscar"
+          class="input-transparente"
+        />
+        <label for="buscar" class="label-placeholder"> buscar </label>
+      </nz-input-group>
     </div>
+    <ng-template #suffixButton>
+      <button nz-button nzType="primary" (click)="search()">
+        <i nz-icon nzType="search"></i>Buscar
+      </button>
+    </ng-template>
+  </div>
+  <div class="bd-highlight">
+    <button
+      nzTooltipTitle="Limpiar busqueda"
+      nzTooltipPlacement="top"
+      nz-button
+      nzType="primary"
+      nz-tooltip
+      (click)="reset()"
+    >
+      <span nz-icon nzType="clear">
+        <span class="visually-hidden">Limpiar busqueda</span>
+      </span>
+    </button>
+  </div>
 </div>
 
 <ng-template #drawerDb let-data let-drawerRef="drawerRef">
-    <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()" nzLayout="vertical">
-        <nz-form-item>
-            <nz-form-label nzRequired nzFor="motor">Motor</nz-form-label>
-            <nz-form-control nzErrorTip="Este es un campo obligatorio">
-                <nz-select id="motor" formControlName="id_motor" nzPlaceHolder="Seleciona el motor" nzAllowClear
-                    nzShowSearch nzServerSearch [ngModel]="dataForm.id_motor" (nzOnSearch)="onSearchEngines($event)">
-                    <ng-container *ngFor="let dataEngine of optionListEngines">
-                        <nz-option *ngIf="!isLoadingEngines" [nzValue]="dataEngine.id"
-                            [nzLabel]="dataEngine.descripcion"></nz-option>
-                    </ng-container>
-                    <nz-option *ngIf="isLoadingEngines" nzDisabled nzCustomContent>
-                        <span nz-icon nzType="loading" class="loading-icon"></span>
-                        Cargando información...
-                    </nz-option>
-                </nz-select>
-            </nz-form-control>
-        </nz-form-item>
-        <nz-form-item>
-            <nz-form-label nzRequired nzFor="servidor">Servidor</nz-form-label>
-            <nz-form-control nzErrorTip="Este es un campo obligatorio">
-                <nz-select id="servidor" formControlName="id_servidor" nzPlaceHolder="Seleciona el servidor"
-                    nzAllowClear nzShowSearch nzServerSearch [ngModel]="dataForm.id_servidor"
-                    (nzOnSearch)="onSearchServer($event)">
-                    <ng-container *ngFor="let dataServer of optionListServe">
-                        <nz-option *ngIf="!isLoadingEngines" [nzValue]="dataServer.id"
-                            [nzLabel]="dataServer.nombre_servidor"></nz-option>
-                    </ng-container>
-                    <nz-option *ngIf="isLoadingSever" nzDisabled nzCustomContent>
-                        <span nz-icon nzType="loading" class="loading-icon"></span>
-                        Cargando información...
-                    </nz-option>
-                </nz-select>
-            </nz-form-control>
-        </nz-form-item>
-        <nz-form-item>
-            <nz-form-label nzRequired nzFor="esquema">Esquema</nz-form-label>
-            <nz-form-control nzErrorTip="Este campo es obligatorio">
-                <textarea nz-input id="esquema" formControlName="esquema"
-                    placeholder="Escriba el esquema de la base de datos" [nzAutosize]="{ minRows: 5, maxRows: 20 }"
-                    [(ngModel)]="dataForm.esquema"></textarea>
-            </nz-form-control>
-        </nz-form-item>
-        <nz-form-item>
-            <nz-form-label nzRequired nzFor="usuario">Usuario</nz-form-label>
-            <nz-form-control nzErrorTip="Este campo es obligatorio">
-                <input id="usuario" type="text" nz-input formControlName="usuario" [ngModel]="dataForm.usuario"
-                    placeholder="Escriba el usuario de la base de datos" />
-            </nz-form-control>
-        </nz-form-item>
-        <nz-form-item>
-            <nz-form-label nzRequired nzFor="contrasena">Contraseña</nz-form-label>
-            <nz-form-control nzErrorTip="Este campo es obligatorio">
-                <input id="contrasena" type="text" nz-input formControlName="contrasena" [ngModel]="dataForm.contrasena"
-                    placeholder="Escriba la contraseña de la base de datos" />
-            </nz-form-control>
-        </nz-form-item>
-    </form>
+  <form
+    nz-form
+    [formGroup]="validateForm"
+    (ngSubmit)="submitForm()"
+    nzLayout="vertical"
+  >
+    <nz-form-item>
+      <nz-form-label nzRequired nzFor="motor">Motor</nz-form-label>
+      <nz-form-control nzErrorTip="Este es un campo obligatorio">
+        <nz-select
+          id="motor"
+          formControlName="id_motor"
+          nzPlaceHolder="Seleciona el motor"
+          nzAllowClear
+          nzShowSearch
+          nzServerSearch
+          [ngModel]="dataForm.id_motor"
+          (nzOnSearch)="onSearchEngines($event)"
+        >
+          <ng-container *ngFor="let dataEngine of optionListEngines">
+            <nz-option
+              *ngIf="!isLoadingEngines"
+              [nzValue]="dataEngine.id"
+              [nzLabel]="dataEngine.descripcion"
+            ></nz-option>
+          </ng-container>
+          <nz-option *ngIf="isLoadingEngines" nzDisabled nzCustomContent>
+            <span nz-icon nzType="loading" class="loading-icon"></span>
+            Cargando información...
+          </nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label nzRequired nzFor="servidor">Servidor</nz-form-label>
+      <nz-form-control nzErrorTip="Este es un campo obligatorio">
+        <nz-select
+          id="servidor"
+          formControlName="id_servidor"
+          nzPlaceHolder="Seleciona el servidor"
+          nzAllowClear
+          nzShowSearch
+          nzServerSearch
+          [ngModel]="dataForm.id_servidor"
+          (nzOnSearch)="onSearchServer($event)"
+        >
+          <ng-container *ngFor="let dataServer of optionListServe">
+            <nz-option
+              *ngIf="!isLoadingEngines"
+              [nzValue]="dataServer.id"
+              [nzLabel]="dataServer.nombre_servidor"
+            ></nz-option>
+          </ng-container>
+          <nz-option *ngIf="isLoadingSever" nzDisabled nzCustomContent>
+            <span nz-icon nzType="loading" class="loading-icon"></span>
+            Cargando información...
+          </nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label nzRequired nzFor="esquema">Esquema</nz-form-label>
+      <nz-form-control nzErrorTip="Este campo es obligatorio">
+        <textarea
+          nz-input
+          id="esquema"
+          formControlName="esquema"
+          placeholder="Escriba el esquema de la base de datos"
+          [nzAutosize]="{ minRows: 5, maxRows: 20 }"
+          [(ngModel)]="dataForm.esquema"
+          [appLimitChars]="100"
+        ></textarea>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label nzRequired nzFor="usuario">Usuario</nz-form-label>
+      <nz-form-control nzErrorTip="Este campo es obligatorio">
+        <input
+          id="usuario"
+          type="text"
+          nz-input
+          formControlName="usuario"
+          [ngModel]="dataForm.usuario"
+          placeholder="Escriba el usuario de la base de datos"
+          [appLimitChars]="50"
+        />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label nzRequired nzFor="contrasena">Contraseña</nz-form-label>
+      <nz-form-control nzErrorTip="Este campo es obligatorio">
+        <input
+          id="contrasena"
+          type="text"
+          nz-input
+          formControlName="contrasena"
+          [ngModel]="dataForm.contrasena"
+          placeholder="Escriba la contraseña de la base de datos"
+          [appLimitChars]="255"
+        />
+      </nz-form-control>
+    </nz-form-item>
+  </form>
 </ng-template>
 <ng-template #footerDb>
-    <div style="float: right">
-        <button class="me-2" nz-button (click)="close()">Cerrar</button>
-        <button nz-button nzType="primary" (click)="submitForm()" [nzLoading]="isSaving">Guardar</button>
-    </div>
+  <div style="float: right">
+    <button class="me-2" nz-button (click)="close()">Cerrar</button>
+    <button
+      nz-button
+      nzType="primary"
+      (click)="submitForm()"
+      [nzLoading]="isSaving"
+    >
+      Guardar
+    </button>
+  </div>
 </ng-template>
-<nz-table class="mt-2" #filterTable [nzData]="listOfData" nzTableLayout="fixed" [nzPageSize]="100"
-    [nzScroll]="{ x: 'auto' }" [nzLoading]="isLoading">
-    <thead>
-        <tr>
-            <th *ngFor="let column of listOfColumns;" [(nzSortOrder)]="column.sortOrder" [nzSortFn]="column.sortFn"
-                [nzShowSort]="column.showSort">
-                {{ column.name }}
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let data of filterTable.data">
-            <td>{{ data.id }}</td>
-            <td>{{ data.descripcion_motor }}</td>
-            <td>{{ data.nombre_servidor }}</td>
-            <td>{{ data.usuario }}</td>
-            <td>
-                <div class="d-flex justify-content-around flex-wrap">
-                    {{ showPassword ? data.contrasena : '***' }}
-                    <button nz-button nzType="primary" (click)="changeStatePassword()">
-                        <span nz-icon [nzType]="iconPassword"></span>
-                    </button>
-                </div>
-            </td>
-            <td>
-                <div class="d-flex justify-content-around flex-wrap">
-                    <button nz-button nzType="primary" (click)="openEditTemplate(data)">
-                        <span nz-icon nzType="edit"></span>
-                    </button>
-                    <nz-switch [(ngModel)]="data.activo" [nzControl]="true" (click)="changeState(data)"
-                        [nzLoading]="data.loading ? true : false"></nz-switch>
-                </div>
-            </td>
-        </tr>
-    </tbody>
+<nz-table
+  class="mt-2"
+  #filterTable
+  [nzData]="listOfData"
+  nzTableLayout="fixed"
+  [nzPageSize]="100"
+  [nzScroll]="{ x: 'auto' }"
+  [nzLoading]="isLoading"
+>
+  <thead>
+    <tr>
+      <th
+        *ngFor="let column of listOfColumns"
+        [(nzSortOrder)]="column.sortOrder"
+        [nzSortFn]="column.sortFn"
+        [nzShowSort]="column.showSort"
+      >
+        {{ column.name }}
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let data of filterTable.data">
+      <td>{{ data.id }}</td>
+      <td>{{ data.descripcion_motor }}</td>
+      <td>{{ data.nombre_servidor }}</td>
+      <td>{{ data.usuario }}</td>
+      <td>
+        <div class="d-flex justify-content-around flex-wrap">
+          {{ showPassword ? data.contrasena : "***" }}
+          <button
+            nzTooltipTitle="Editar"
+            nzTooltipPlacement="top"
+            nz-button
+            nzType="primary"
+            nz-tooltip
+            (click)="openEditTemplate(data)"
+          >
+            <span nz-icon [nzType]="iconPassword">
+              <span class="visually-hidden">
+                Ver Contraseña | Ocultar Contraseña
+              </span>
+            </span>
+          </button>
+        </div>
+      </td>
+      <td>
+        <div class="d-flex justify-content-evenly">
+          <button
+            nzTooltipTitle="Editar"
+            nzTooltipPlacement="top"
+            nz-button
+            nzType="primary"
+            nz-tooltip
+            (click)="openEditTemplate(data)"
+          >
+            <span nz-icon nzType="edit">
+              <span class="visually-hidden">Editar</span>
+            </span>
+          </button>
+          @if(!data.loading) {
+          <label
+            [nzId]="data.id"
+            nz-checkbox
+            [(ngModel)]="data.activo"
+            nz-tooltip
+            [nzTooltipTitle]="data.activo ? 'Desactivar' : 'Activar'"
+            nzTooltipPlacement="top"
+            (ngModelChange)="changeState(data)"
+          >
+            <span class="visually-hidden">Activar | Desactivar</span>
+          </label>
+          }@else {
+          <button nz-button nzLoading nzType="dashed" nzShape="circle"></button>
+          }
+        </div>
+      </td>
+    </tr>
+  </tbody>
 </nz-table>

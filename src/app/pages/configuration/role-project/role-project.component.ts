@@ -131,8 +131,10 @@ export class RoleProjectComponent {
         });
         return;
       }
-      this.listOfData = data.data;
-      this.listOfDataCopy = data.data;
+      this.listOfData = data.data.map(({ activo, ...rest }: any) => {
+        return { ...rest, activo: activo ? true : false };
+      });
+      this.listOfDataCopy = this.listOfData;
     });
   }
 

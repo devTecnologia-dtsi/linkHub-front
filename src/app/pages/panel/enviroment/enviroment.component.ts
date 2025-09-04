@@ -130,8 +130,10 @@ export class EnviromentComponent {
         });
         return;
       }
-      this.listOfData = data.data;
-      this.listOfdataCopy = data.data;
+      this.listOfData = data.data.map(({ activo, ...rest }: any) => {
+        return { ...rest, activo: activo ? true : false };
+      });
+      this.listOfdataCopy = this.listOfData;
     });
   }
 
