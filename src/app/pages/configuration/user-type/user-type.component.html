@@ -119,8 +119,9 @@
             nz-button
             nzType="primary"
             nz-tooltip
+            (click)="openEditTemplate(data)"
           >
-            <span nz-icon nzType="edit" (click)="openEditTemplate(data)">
+            <span nz-icon nzType="edit">
               <span class="visually-hidden">Editar</span>
             </span>
           </button>
