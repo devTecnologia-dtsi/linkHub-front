@@ -117,7 +117,7 @@ export class ServerComponent {
       name: 'id',
       sortOrder: null,
       sortFn: (a: DatatableServer, b: DatatableServer) =>
-        a.id.localeCompare(b.id),
+        JSON.stringify(a.id).localeCompare(JSON.stringify(b.id)),
       showSort: true,
     },
     {
@@ -377,7 +377,7 @@ export class ServerComponent {
     this.isLoadingOs = true;
     if (!value) {
       this.serviceOs.getAllOsActivos().subscribe((data: any) => {
-        this.isLoadingOs = false; // Oculta el indicador de carga
+        this.isLoadingOs = false;
         if (data.resp !== undefined && !data.resp) {
           this.message.error(`<b>¡Ups!</b> ${data.message}`, {
             nzDuration: 2500,
