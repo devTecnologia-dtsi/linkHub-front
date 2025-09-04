@@ -135,6 +135,7 @@
           [ngModel]="dataForm.telefono"
           placeholder="Escriba el telefono del usuario"
           [appLimitChars]="20"
+          type="number"
         />
       </nz-form-control>
     </nz-form-item>
@@ -209,12 +210,7 @@
             <span class="visually-hidden">Activar | Desactivar</span>
           </label>
           }@else {
-          <button
-            nz-button
-            nzLoading
-            nzType="dashed"
-            nzShape="circle"
-          ></button>
+          <button nz-button nzLoading nzType="dashed" nzShape="circle"></button>
           }
         </div>
       </td>
