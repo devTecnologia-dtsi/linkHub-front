@@ -390,6 +390,7 @@ export class DbComponent {
   changeStatePassword() {
     this.showPassword = !this.showPassword;
     this.iconPassword = this.showPassword ? 'eye-invisible' : 'eye';
+
   }
 
   close(): void {

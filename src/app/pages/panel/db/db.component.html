@@ -199,12 +199,12 @@
         <div class="d-flex justify-content-around flex-wrap">
           {{ showPassword ? data.contrasena : "***" }}
           <button
-            nzTooltipTitle="Editar"
+            nzTooltipTitle="Contraseña"
             nzTooltipPlacement="top"
             nz-button
             nzType="primary"
             nz-tooltip
-            (click)="openEditTemplate(data)"
+            (click)="changeStatePassword()"
           >
             <span nz-icon [nzType]="iconPassword">
               <span class="visually-hidden">
@@ -225,7 +225,7 @@
             (click)="openEditTemplate(data)"
           >
             <span nz-icon nzType="edit">
-              <span class="visually-hidden">Editar</span>
+              <span class="visually-hidden">Editar DB</span>
             </span>
           </button>
           @if(!data.loading) {
