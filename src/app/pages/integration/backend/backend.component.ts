@@ -1,10 +1,23 @@
 import { Component, HostListener, TemplateRef, ViewChild } from '@angular/core';
-import { FormGroup, FormsModule, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormGroup,
+  FormsModule,
+  NonNullableFormBuilder,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 
 // interfaces
-import { DrawerFooter, drawerTemplate } from '../../../interface/global.interface';
+import {
+  DrawerFooter,
+  drawerTemplate,
+} from '../../../interface/global.interface';
 import { DataTableLanguage } from '../../../interface/language.interface';
-import { ColumnItemBackend, DataTableBackend, FormBackend } from '../../../interface/backend.interface';
+import {
+  ColumnItemBackend,
+  DataTableBackend,
+  FormBackend,
+} from '../../../interface/backend.interface';
 
 // component and-desing
 import { CommonModule } from '@angular/common';
@@ -24,6 +37,7 @@ import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzAlertModule } from 'ng-zorro-antd/alert';
+import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 
 // Services
 import { GlobalService } from '../../../service/global/global.service';
@@ -35,6 +49,8 @@ import { ServerComponent } from '../../../components/server/server.component';
 import { ResponsableComponent } from '../../../components/responsable/responsable.component';
 import { DocumentsComponent } from '../../../components/documents/documents.component';
 import { forbiddenNameValidator } from '../../../validators/forbidden-name.validator';
+// Directives
+import { LimitCharsDirective } from '../../../directive/limit-chars/limit-chars.directive';
 
 @Component({
   selector: 'app-backend',
@@ -62,23 +78,26 @@ import { forbiddenNameValidator } from '../../../validators/forbidden-name.valid
     ServerComponent,
     BackendComponent,
     ResponsableComponent,
-    DocumentsComponent
+    DocumentsComponent,
+    LimitCharsDirective,
+    NzCheckboxModule,
   ],
   templateUrl: './backend.component.html',
-  styleUrl: './backend.component.css'
+  styleUrl: './backend.component.css',
 })
 export class BackendComponent {
-
-  @ViewChild('drawerBackend', { static: false }) drawerTemplate?: TemplateRef<drawerTemplate>
-  @ViewChild('footerBackend', { static: false }) drawerFooter?: TemplateRef<DrawerFooter>
-  isLoading: boolean = true
-  isSaving: boolean = false
-  searchValue: string = ''
+  @ViewChild('drawerBackend', { static: false })
+  drawerTemplate?: TemplateRef<drawerTemplate>;
+  @ViewChild('footerBackend', { static: false })
+  drawerFooter?: TemplateRef<DrawerFooter>;
+  isLoading: boolean = true;
+  isSaving: boolean = false;
+  searchValue: string = '';
   expandSet = new Set<string>();
 
-  sizeWindow: 'large' | 'default' = "default";
+  sizeWindow: 'large' | 'default' = 'default';
 
-  drawerRef: any
+  drawerRef: any;
   dataForm: DataTableBackend = {
     activo: false,
     autenticacion: '',
@@ -96,10 +115,10 @@ export class BackendComponent {
     servidores: [],
     nombre_backend: '',
     endpoint: '',
-    loading: false
-  }
-  edit: boolean = false // variable usada para saber cuando se esta actualizando el registro
-  isAddNewBackend: boolean = false
+    loading: false,
+  };
+  edit: boolean = false; // variable usada para saber cuando se esta actualizando el registro
+  isAddNewBackend: boolean = false;
 
   // select lenguage
   isLoadingLenguage: boolean = false;
@@ -107,61 +126,80 @@ export class BackendComponent {
   optionListLenguage: Array<DataTableLanguage> = [];
   optionListCopyLenguage: Array<DataTableLanguage> = [];
 
-
   validateForm: FormGroup<FormBackend> = this.fb.group({
     autenticacion: ['', [Validators.required]],
     body: ['', []],
-    coleccion: ['', [Validators.required, forbiddenNameValidator([/^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(:\d{1,5})?(\/[^\s]*)?$/])]],
+    coleccion: [
+      '',
+      [
+        Validators.required,
+        forbiddenNameValidator([
+          /^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(:\d{1,5})?(\/[^\s]*)?$/,
+        ]),
+      ],
+    ],
     id_lenguaje: ['', [Validators.required]],
     metodo: ['', [Validators.required]],
-    url_versionamiento: ['', [Validators.required, forbiddenNameValidator([/^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(:\d{1,5})?(\/[^\s]*)?$/])]],
+    url_versionamiento: [
+      '',
+      [
+        Validators.required,
+        forbiddenNameValidator([
+          /^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(:\d{1,5})?(\/[^\s]*)?$/,
+        ]),
+      ],
+    ],
     nombre_backend: ['', [Validators.required]],
-    endpoint: ['', [Validators.required]]
+    endpoint: ['', [Validators.required]],
   });
 
   listOfColumns: ColumnItemBackend[] = [
     {
-      name: '',
+      name: '-',
       sortOrder: null,
       sortFn: null,
-      showSort: false
+      showSort: false,
     },
     {
       name: 'Nombre Backend',
       sortOrder: null,
-      sortFn: (a: DataTableBackend, b: DataTableBackend) => a.nombre_backend.localeCompare(b.nombre_backend),
-      showSort: true
+      sortFn: (a: DataTableBackend, b: DataTableBackend) =>
+        a.nombre_backend.localeCompare(b.nombre_backend),
+      showSort: true,
     },
     {
       name: 'Metodo',
       sortOrder: null,
-      sortFn: (a: DataTableBackend, b: DataTableBackend) => a.metodo.localeCompare(b.metodo),
-      showSort: true
+      sortFn: (a: DataTableBackend, b: DataTableBackend) =>
+        a.metodo.localeCompare(b.metodo),
+      showSort: true,
     },
     {
       name: 'Endpoint',
       sortOrder: null,
-      sortFn: (a: DataTableBackend, b: DataTableBackend) => a.endpoint.localeCompare(b.endpoint),
-      showSort: true
+      sortFn: (a: DataTableBackend, b: DataTableBackend) =>
+        a.endpoint.localeCompare(b.endpoint),
+      showSort: true,
     },
     {
       name: 'Autenticación',
       sortOrder: null,
-      sortFn: (a: DataTableBackend, b: DataTableBackend) => a.autenticacion.localeCompare(b.autenticacion),
-      showSort: true
+      sortFn: (a: DataTableBackend, b: DataTableBackend) =>
+        a.autenticacion.localeCompare(b.autenticacion),
+      showSort: true,
     },
     {
       name: "Url's",
       sortOrder: null,
       sortFn: null,
-      showSort: false
+      showSort: false,
     },
     {
       name: 'Acciones',
       sortFn: null,
       sortOrder: null,
-      showSort: false
-    }
+      showSort: false,
+    },
   ];
   listOfData: DataTableBackend[] = [];
   listOfDataCopy: DataTableBackend[] = [];
@@ -173,10 +211,10 @@ export class BackendComponent {
     private serviceLenguage: languageService,
     private message: NzMessageService,
     private globalService: GlobalService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
-    this.getData()
+    this.getData();
     this.setWidthWindow(window.innerWidth);
   }
 
@@ -190,27 +228,30 @@ export class BackendComponent {
   }
 
   getData(): void {
-    this.isLoading = true
-    this.serviceBackend.getAllBackends()
-      .subscribe((data: any) => {
-        this.isLoading = false
-        if (data.ok != undefined && data.ok == false) {
-          this.message.error('¡Ups! Hubo un error al obtener los backends', { nzDuration: 2500 })
-          return
-        }
-        const dataConverted = data.data.map(({ documentos, servidores, responsables, ...rest }: any ) => {
+    this.isLoading = true;
+    this.serviceBackend.getAllBackends().subscribe((data: any) => {
+      this.isLoading = false;
+      if (data.ok != undefined && data.ok == false) {
+        this.message.error('¡Ups! Hubo un error al obtener los backends', {
+          nzDuration: 2500,
+        });
+        return;
+      }
+      const dataConverted = data.data.map(
+        ({ documentos, servidores, responsables, activo, ...rest }: any) => {
           return {
             ...rest,
             documentos: JSON.parse(documentos),
             servidores: JSON.parse(servidores),
-            responsables: JSON.parse(responsables)
-          }
-        });
-        this.listOfData = dataConverted
-        this.listOfDataCopy = dataConverted
-      })
+            responsables: JSON.parse(responsables),
+            activo: activo ? true : false,
+          };
+        }
+      );
+      this.listOfData = dataConverted;
+      this.listOfDataCopy = dataConverted;
+    });
   }
-
 
   openTemplate(): void {
     this.drawerRef = this.drawerService.create({
@@ -218,110 +259,135 @@ export class BackendComponent {
       nzContent: this.drawerTemplate,
       nzFooter: this.drawerFooter,
       nzContentParams: { edit: false },
-      nzSize: this.sizeWindow
+      nzSize: this.sizeWindow,
     });
     this.drawerRef.nzOnClose.subscribe(() => this.close());
   }
 
   openEditTemplate(data: DataTableBackend): void {
-    this.edit = true
-    this.onSearchLenguage('')
-    this.dataForm = data
+    this.edit = true;
+    this.onSearchLenguage('');
+    this.dataForm = data;
     this.drawerRef = this.drawerService.create({
       nzTitle: 'Editar Backend',
       nzContent: this.drawerTemplate,
       nzFooter: this.drawerFooter,
       nzContentParams: { edit: true },
-      nzSize: this.sizeWindow
+      nzSize: this.sizeWindow,
     });
     this.drawerRef.nzOnClose.subscribe(() => this.close());
   }
 
   changeState(dataChange: DataTableBackend): void {
-    dataChange.loading = true
+    dataChange.loading = true;
     this.serviceBackend.changeState(dataChange.id).subscribe((data: any) => {
-      dataChange.loading = false
+      dataChange.loading = false;
       if (data.ok != undefined && data.ok == false) {
-        this.message.error('<b>¡Ups!</b> Hubo un error al cambiar el estado backend', { nzDuration: 2500 })
-        return
+        this.message.error(
+          '<b>¡Ups!</b> Hubo un error al cambiar el estado backend',
+          { nzDuration: 2500 }
+        );
+        dataChange.activo = !dataChange.activo;
+        return;
       }
       if (data.resp != undefined && !data.resp) {
-        this.message.error(`<b>¡Ups!</b> ${data.message}`, { nzDuration: 2500 })
-        return
+        this.message.error(`<b>¡Ups!</b> ${data.message}`, {
+          nzDuration: 2500,
+        });
+        dataChange.activo = !dataChange.activo;
+        return;
       }
-      dataChange.activo = !dataChange.activo
-      this.message.success(`<b>¡Execelente!</b> ${data.message}`, { nzDuration: 2500 })
-    })
+      this.message.success(`<b>¡Execelente!</b> ${data.message}`, {
+        nzDuration: 2500,
+      });
+    });
   }
 
   submitForm(): void {
     if (!this.validateForm.valid) {
-      Object.values(this.validateForm.controls).forEach(control => {
+      Object.values(this.validateForm.controls).forEach((control) => {
         if (control.invalid) {
-          control.markAsDirty()
-          control.updateValueAndValidity({ onlySelf: true })
+          control.markAsDirty();
+          control.updateValueAndValidity({ onlySelf: true });
         }
       });
-      return
+      return;
     }
     const dataToSave: DataTableBackend = {
       ...this.dataForm,
-      ...this.validateForm.value
-    }
+      ...this.validateForm.value,
+    };
     if (this.edit) {
-      this.isSaving = true
-      this.serviceBackend.editBackend(dataToSave, this.dataForm.id)
+      this.isSaving = true;
+      this.serviceBackend
+        .editBackend(dataToSave, this.dataForm.id)
         .subscribe((data: any) => {
-          this.isSaving = false
+          this.isSaving = false;
           if (data.ok != undefined && data.ok == false) {
-            this.message.error('<b>¡Ups!</b> Hubo un error al editar el frontend', { nzDuration: 2500 })
-            return
+            this.message.error(
+              '<b>¡Ups!</b> Hubo un error al editar el frontend',
+              { nzDuration: 2500 }
+            );
+            return;
           }
           if (data.resp != undefined && !data.resp) {
-            this.message.error(`<b>¡Ups!</b> ${data.message}`, { nzDuration: 2500 })
-            return
+            this.message.error(`<b>¡Ups!</b> ${data.message}`, {
+              nzDuration: 2500,
+            });
+            return;
           }
-          this.message.success('<b>¡Execelente!</b> Se actulizo el frontend con exito', { nzDuration: 2500 })
-          this.drawerRef.close()
-          this.edit = false
-          this.getData()
-          this.dataForm = this.globalService.createDefaultObject<DataTableBackend>({
-            activo: false,
-            autenticacion: '',
-            body: '',
-            coleccion: '',
-            creacion: '',
-            descripcion_lenguaje: '',
-            id: '',
-            id_lenguaje: '',
-            metodo: '',
-            modificacion: '',
-            URL_Versionamiento: '',
-            documentos: [],
-            responsables: [],
-            servidores: [],
-            nombre_backend: '',
-            endpoint: '',
-            loading: false
-          })
-        })
+          this.message.success(
+            '<b>¡Execelente!</b> Se actulizo el frontend con exito',
+            { nzDuration: 2500 }
+          );
+          this.drawerRef.close();
+          this.edit = false;
+          this.getData();
+          this.dataForm =
+            this.globalService.createDefaultObject<DataTableBackend>({
+              activo: false,
+              autenticacion: '',
+              body: '',
+              coleccion: '',
+              creacion: '',
+              descripcion_lenguaje: '',
+              id: '',
+              id_lenguaje: '',
+              metodo: '',
+              modificacion: '',
+              URL_Versionamiento: '',
+              documentos: [],
+              responsables: [],
+              servidores: [],
+              nombre_backend: '',
+              endpoint: '',
+              loading: false,
+            });
+        });
     } else {
-      this.isSaving = true
-      this.serviceBackend.saveBackend(dataToSave)
-        .subscribe((data: any) => {
-          this.isSaving = false
-          if (data.ok != undefined && data.ok == false) {
-            this.message.error('<b>¡Ups!</b> Hubo un error al guardar el backend', { nzDuration: 2500 })
-            return
-          }
-          if (data.resp != undefined && !data.resp) {
-            this.message.error(`<b>¡Ups!</b> ${data.message}`, { nzDuration: 2500 })
-            return
-          }
-          this.message.success('<b>¡Execelente!</b> Se guardo el backend con exito', { nzDuration: 2500 })
-          this.getData()
-          this.drawerRef.close()
-        })
+      this.isSaving = true;
+      this.serviceBackend.saveBackend(dataToSave).subscribe((data: any) => {
+        this.isSaving = false;
+        if (data.ok != undefined && data.ok == false) {
+          this.message.error(
+            '<b>¡Ups!</b> Hubo un error al guardar el backend',
+            { nzDuration: 2500 }
+          );
+          return;
+        }
+        if (data.resp != undefined && !data.resp) {
+          this.message.error(`<b>¡Ups!</b> ${data.message}`, {
+            nzDuration: 2500,
+          });
+          return;
+        }
+        this.message.success(
+          '<b>¡Execelente!</b> Se guardo el backend con exito',
+          { nzDuration: 2500 }
+        );
+        this.getData();
+        this.drawerRef.close();
+      });
     }
   }
 
@@ -331,23 +397,31 @@ export class BackendComponent {
       this.serviceLenguage.getLanguageActive().subscribe((data: any) => {
         this.isLoadingLenguage = false;
         if (data.ok != undefined && data.ok == false) {
-          this.message.error('<b>¡Ups!</b> Hubo un error al obtener los lenguajes', { nzDuration: 2500 })
-          return
+          this.message.error(
+            '<b>¡Ups!</b> Hubo un error al obtener los lenguajes',
+            { nzDuration: 2500 }
+          );
+          return;
         }
         if (data.resp != undefined && !data.resp) {
-          this.message.error(`<b>¡Ups!</b> ${data.message}`, { nzDuration: 2500 })
-          return
+          this.message.error(`<b>¡Ups!</b> ${data.message}`, {
+            nzDuration: 2500,
+          });
+          return;
         }
         this.optionListLenguage = data.data;
         this.optionListCopyLenguage = data.data;
-      })
+      });
     } else {
-      this.optionListLenguage = this.optionListCopyLenguage.filter(({ nombre }) => nombre.toLocaleUpperCase().includes(value.toLocaleUpperCase()))
+      this.optionListLenguage = this.optionListCopyLenguage.filter(
+        ({ nombre }) =>
+          nombre.toLocaleUpperCase().includes(value.toLocaleUpperCase())
+      );
     }
   }
 
   close(): void {
-    this.drawerRef.close()
+    this.drawerRef.close();
     this.dataForm = this.globalService.createDefaultObject<DataTableBackend>({
       activo: false,
       autenticacion: '',
@@ -365,11 +439,11 @@ export class BackendComponent {
       servidores: [],
       nombre_backend: '',
       endpoint: '',
-      loading: false
-    })
-    this.edit = false
-    this.isAddNewBackend = false
-    this.getData()
+      loading: false,
+    });
+    this.edit = false;
+    this.isAddNewBackend = false;
+    this.getData();
   }
 
   reset(): void {
@@ -378,10 +452,18 @@ export class BackendComponent {
   }
 
   search(): void {
-    this.listOfData = this.listOfDataCopy.filter(({ autenticacion, metodo }: DataTableBackend) => {
-      return autenticacion.toLocaleUpperCase().includes(this.searchValue.toLocaleUpperCase()) ||
-        metodo.toLocaleUpperCase().includes(this.searchValue.toLocaleUpperCase());
-    });
+    this.listOfData = this.listOfDataCopy.filter(
+      ({ autenticacion, metodo }: DataTableBackend) => {
+        return (
+          autenticacion
+            .toLocaleUpperCase()
+            .includes(this.searchValue.toLocaleUpperCase()) ||
+          metodo
+            .toLocaleUpperCase()
+            .includes(this.searchValue.toLocaleUpperCase())
+        );
+      }
+    );
   }
 
   onExpandChange(id: string, checked: boolean): void {
@@ -391,5 +473,4 @@ export class BackendComponent {
       this.expandSet.delete(id);
     }
   }
-
 }
