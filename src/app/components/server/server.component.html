@@ -1,108 +1,174 @@
 <div class="container">
-    @if (servidores.length > 0 || isAddNewServe) {
-    <ng-form nz-form [formGroup]="validateFormServe" (ngSubmit)="submitFormServe()" nzLayout="vertical">
-        <div class="row">
-            <div class="col-md-6 col-sm-12">
-                <nz-form-item>
-                    <nz-form-control nzErrorTip="Este es un campo obligatorio">
-                        <nz-select id="servidor" nzPlaceHolder="Seleciona el servidor" formControlName="id_servidor"
-                            nzAllowClear nzShowSearch nzServerSearch (nzOnSearch)="onSearchServer($event)">
-                            <ng-container *ngFor="let dataEngine of optionListServers">
-                                <nz-option *ngIf="!isLoadingServers" [nzValue]="dataEngine.id"
-                                    [nzLabel]="dataEngine.nombre_servidor"></nz-option>
-                            </ng-container>
-                            <nz-option *ngIf="isLoadingServers" nzDisabled nzCustomContent>
-                                <span nz-icon nzType="loading" class="loading-icon"></span>
-                                Cargando información...
-                            </nz-option>
-                        </nz-select>
-                    </nz-form-control>
-                </nz-form-item>
-            </div>
-            <div class="col-md-6 col-sm-12">
-                <nz-form-item>
-                    <nz-form-control nzErrorTip="Este campo es obligatorio">
-                        <input id="url_servidor" type="text" nz-input formControlName="url_servidor"
-                            placeholder="Escriba la url del servidor" />
-                    </nz-form-control>
-                </nz-form-item>
-            </div>
-            <div class="col-12 text-center mb-4">
-                <button nz-button nzType="primary" (click)="submitFormServe()">
-                    Agregar Servidor
-                    <span nz-icon nzType="plus"></span>
-                </button>
-            </div>
-        </div>
-    </ng-form>
-    <nz-table #editRowTable nzBordered [nzData]="servidores" nzTableLayout="fixed" [nzScroll]="scrollTableX">
-        <thead>
-            <tr>
-                <th [nzWidth]="widthServer">Servidor</th>
-                <th [nzWidth]="widthServerUrl">Url Servidor</th>
-                <th [nzWidth]="widthAction" nzRight>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            @for (data of editRowTable.data; track data) {
-            <tr>
-                @if (!editCacheTableServers[$index].edit) {
-                <td>{{ data.nombre_servidor }}</td>
-                <td>{{ data.url_servidor }}</td>
-                <td nzRight>
-                    <div class="d-flex justify-content-end gap-2">
-                        <button nz-button nzType="primary" nzShape="circle" (click)="startEditServe($index)">
-                            <span nz-icon nzType="edit" nzTheme="outline"></span>
-                        </button>
-                        <button nz-button nzType="primary" nzShape="circle" nzDanger (click)="deleteServe($index)">
-                            <span nz-icon nzType="delete" nzTheme="outline"></span>
-                        </button>
-                    </div>
-                </td>
-                } @else {
-                <td>
-                    <nz-select [(ngModel)]="editCacheTableServers[$index].data.id_servidor"
-                        nzPlaceHolder="Seleciona el servidor" nzShowSearch nzServerSearch
-                        (nzOnSearch)="onSearchServer($event)">
-                        <ng-container *ngFor="let dataEngine of optionListServers">
-                            <nz-option *ngIf="!isLoadingServers" [nzValue]="dataEngine.id"
-                                [nzLabel]="dataEngine.nombre_servidor"></nz-option>
-                        </ng-container>
-                        <nz-option *ngIf="isLoadingServers" nzDisabled nzCustomContent>
-                            <span nz-icon nzType="loading" class="loading-icon"></span>
-                            Cargando información...
-                        </nz-option>
-                    </nz-select>
-                </td>
-                <td><input type="text" nz-input [(ngModel)]="editCacheTableServers[$index].data.url_servidor" /></td>
-                <td nzRight>
-                    <div class="d-flex justify-content-end gap-2">
-                        <button nz-button nzType="primary" nzShape="circle" (click)="saveEditServe($index)">
-                            <span nz-icon nzType="save" nzTheme="outline"></span>
-                        </button>
-                        <button nz-button nzType="primary" nzShape="circle" nzDanger nz-popconfirm
-                            nzPopconfirmTitle="¿Seguro que quieres cancelar los cambios?"
-                            (nzOnConfirm)="cancelEditServe($index)">
-                            <span nz-icon nzType="close-circle" nzTheme="outline"></span>
-                        </button>
-                    </div>
-                </td>
-                }
-            </tr>
-            }
-        </tbody>
-    </nz-table>
-    } @else {
-    <nz-empty *ngIf="servidores.length == 0" nzNotFoundImage="..../../assets/icons/server.avif"
-        [nzNotFoundContent]="contentTpl" [nzNotFoundFooter]="footerTpl">
-        <ng-template #contentTpl>
-            <span>
-                No se han agregado servidores
-            </span>
-        </ng-template>
-        <ng-template #footerTpl>
-            <button nz-button nzType="primary" (click)="showRefServe()">Agregar Servidor</button>
-        </ng-template>
-    </nz-empty>
-    }
+  @if (servidores.length > 0 || isAddNewServe) {
+  <ng-form
+    nz-form
+    [formGroup]="validateFormServe"
+    (ngSubmit)="submitFormServe()"
+    nzLayout="vertical"
+  >
+    <div class="row">
+      <div class="col-md-6 col-sm-12">
+        <nz-form-item>
+          <nz-form-control nzErrorTip="Este es un campo obligatorio">
+            <nz-select
+              id="servidor"
+              nzPlaceHolder="Seleciona el servidor"
+              formControlName="id_servidor"
+              nzAllowClear
+              nzShowSearch
+              nzServerSearch
+              (nzOnSearch)="onSearchServer($event)"
+            >
+              <ng-container *ngFor="let dataEngine of optionListServers">
+                <nz-option
+                  *ngIf="!isLoadingServers"
+                  [nzValue]="dataEngine.id"
+                  [nzLabel]="dataEngine.nombre_servidor"
+                ></nz-option>
+              </ng-container>
+              <nz-option *ngIf="isLoadingServers" nzDisabled nzCustomContent>
+                <span nz-icon nzType="loading" class="loading-icon"></span>
+                Cargando información...
+              </nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div class="col-md-6 col-sm-12">
+        <nz-form-item>
+          <nz-form-control nzErrorTip="Este campo es obligatorio">
+            <input
+              id="url_servidor"
+              type="text"
+              nz-input
+              formControlName="url_servidor"
+              placeholder="Escriba la url del servidor"
+              [appLimitChars]="255"
+            />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div class="col-12 text-center mb-4">
+        <button nz-button nzType="primary" (click)="submitFormServe()">
+          Agregar Servidor
+          <span nz-icon nzType="plus"></span>
+        </button>
+      </div>
+    </div>
+  </ng-form>
+  <nz-table
+    #editRowTable
+    nzBordered
+    [nzData]="servidores"
+    nzTableLayout="fixed"
+    [nzScroll]="scrollTableX"
+  >
+    <thead>
+      <tr>
+        <th [nzWidth]="widthServer">Servidor</th>
+        <th [nzWidth]="widthServerUrl">Url Servidor</th>
+        <th [nzWidth]="widthAction" nzRight>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (data of editRowTable.data; track data) {
+      <tr>
+        @if (!editCacheTableServers[$index].edit) {
+        <td>{{ data.nombre_servidor }}</td>
+        <td>{{ data.url_servidor }}</td>
+        <td nzRight>
+          <div class="d-flex justify-content-end gap-2">
+            <button
+              nz-button
+              nzType="primary"
+              nzShape="circle"
+              (click)="startEditServe($index)"
+            >
+              <span nz-icon nzType="edit" nzTheme="outline"></span>
+            </button>
+            <button
+              nz-button
+              nzType="primary"
+              nzShape="circle"
+              nzDanger
+              (click)="deleteServe($index)"
+            >
+              <span nz-icon nzType="delete" nzTheme="outline"></span>
+            </button>
+          </div>
+        </td>
+        } @else {
+        <td>
+          <nz-select
+            [(ngModel)]="editCacheTableServers[$index].data.id_servidor"
+            nzPlaceHolder="Seleciona el servidor"
+            nzShowSearch
+            nzServerSearch
+            (nzOnSearch)="onSearchServer($event)"
+          >
+            <ng-container *ngFor="let dataEngine of optionListServers">
+              <nz-option
+                *ngIf="!isLoadingServers"
+                [nzValue]="dataEngine.id"
+                [nzLabel]="dataEngine.nombre_servidor"
+              ></nz-option>
+            </ng-container>
+            <nz-option *ngIf="isLoadingServers" nzDisabled nzCustomContent>
+              <span nz-icon nzType="loading" class="loading-icon"></span>
+              Cargando información...
+            </nz-option>
+          </nz-select>
+        </td>
+        <td>
+          <input
+            type="text"
+            nz-input
+            [(ngModel)]="editCacheTableServers[$index].data.url_servidor"
+          />
+        </td>
+        <td nzRight>
+          <div class="d-flex justify-content-end gap-2">
+            <button
+              nz-button
+              nzType="primary"
+              nzShape="circle"
+              (click)="saveEditServe($index)"
+            >
+              <span nz-icon nzType="save" nzTheme="outline"></span>
+            </button>
+            <button
+              nz-button
+              nzType="primary"
+              nzShape="circle"
+              nzDanger
+              nz-popconfirm
+              nzPopconfirmTitle="¿Seguro que quieres cancelar los cambios?"
+              (nzOnConfirm)="cancelEditServe($index)"
+            >
+              <span nz-icon nzType="close-circle" nzTheme="outline"></span>
+            </button>
+          </div>
+        </td>
+        }
+      </tr>
+      }
+    </tbody>
+  </nz-table>
+  } @else {
+  <nz-empty
+    *ngIf="servidores.length == 0"
+    nzNotFoundImage="..../../assets/icons/server.avif"
+    [nzNotFoundContent]="contentTpl"
+    [nzNotFoundFooter]="footerTpl"
+  >
+    <ng-template #contentTpl>
+      <span> No se han agregado servidores </span>
+    </ng-template>
+    <ng-template #footerTpl>
+      <button nz-button nzType="primary" (click)="showRefServe()">
+        Agregar Servidor
+      </button>
+    </ng-template>
+  </nz-empty>
+  }
 </div>

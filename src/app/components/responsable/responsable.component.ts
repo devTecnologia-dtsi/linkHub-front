@@ -37,7 +37,7 @@ import { DatatableUser } from '../../interface/user.interface';
     NzInputModule,
     NzIconModule,
     ReactiveFormsModule,
-    NzPopconfirmModule
+    NzPopconfirmModule,
   ],
   templateUrl: './responsable.component.html',
   styleUrl: './responsable.component.css'

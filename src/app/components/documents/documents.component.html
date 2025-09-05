@@ -1,121 +1,200 @@
 <div class="container">
-    @if (document.length > 0 || isAddNewDocument) {
-    <ng-form nz-form [formGroup]="validateFormDocument" (ngSubmit)="submitFormDocument()" nzLayout="vertical">
-        <div class="row">
-            <div class="col-md-6 col-sm-12">
-                <nz-form-item>
-                    <nz-form-control nzErrorTip="Este es un campo obligatorio">
-                        <nz-select id="documento" nzPlaceHolder="Seleciona un documento" formControlName="id_documento"
-                            nzAllowClear nzShowSearch nzServerSearch (nzOnSearch)="onSearchDocument($event)">
-                            <ng-container *ngFor="let dataDocument of optionListDocument">
-                                <nz-option *ngIf="!isLoadingDocument" [nzValue]="dataDocument.id"
-                                    [nzLabel]="dataDocument.nombre_documento"></nz-option>
-                            </ng-container>
-                            <nz-option *ngIf="isLoadingDocument" nzDisabled nzCustomContent>
-                                <span nz-icon nzType="loading" class="loading-icon"></span>
-                                Cargando información...
-                            </nz-option>
-                        </nz-select>
-                    </nz-form-control>
-                </nz-form-item>
-            </div>
-            <div class="col-md-6 col-sm-12">
-                <nz-form-item>
-                    <nz-form-control nzErrorTip="Este campo es obligatorio">
-                        <input id="ubicacion" type="text" nz-input formControlName="ubicacion"
-                            placeholder="Escriba la ubicación del documento" />
-                    </nz-form-control>
-                </nz-form-item>
-            </div>
-            <div class="col-md-12 col-sm-12">
-                <nz-form-item>
-                    <nz-form-control nzErrorTip="Este campo es obligatorio">
-                        <input id="nota" type="text" nz-input formControlName="nota"
-                            placeholder="Escriba una nota del documento" />
-                    </nz-form-control>
-                </nz-form-item>
-            </div>
-            <div class="col-12 text-center mb-4">
-                <button nz-button nzType="primary" (click)="submitFormDocument()">
-                    Agregar Documento
-                    <span nz-icon nzType="plus"></span>
-                </button>
-            </div>
-        </div>
-    </ng-form>
-    <div class="table-responsive">
-        <nz-table #editRowTable nzBordered [nzData]="document" nzTableLayout="fixed" [nzScroll]="scrollTableX">
-            <thead>
-                <tr>
-                    <th [nzWidth]="widthDocumento">Documento</th>
-                    <th [nzWidth]="widthUbicacion">Ubicación</th>
-                    <th [nzWidth]="widthNota">Nota</th>
-                    <th [nzWidth]="widthAccion" nzRight>Acción</th>
-                </tr>
-            </thead>
-            <tbody>
-                @for (data of editRowTable.data; track data) {
-                <tr>
-                    @if (!editCacheTableDocument[$index].edit) {
-                    <td>{{ data.nombre_documento }}</td>
-                    <td>{{ data.ubicacion }}</td>
-                    <td>{{ data.nota }}</td>
-                    <td nzRight>
-                        <div class="d-flex justify-content-end gap-2">
-                            <button nz-button nzType="primary" nzShape="circle" (click)="startEditDocument($index)">
-                                <span nz-icon nzType="edit" nzTheme="outline"></span>
-                            </button>
-                            <button nz-button nzType="primary" nzShape="circle" nzDanger (click)="deleteDocument($index)">
-                                <span nz-icon nzType="delete" nzTheme="outline"></span>
-                            </button>
-                        </div>
-                    </td>
-                    } @else {
-                    <td>
-                        <nz-select class="w-100" [(ngModel)]="editCacheTableDocument[$index].data.id_documento"
-                            nzPlaceHolder="Seleciona un documento" nzShowSearch nzServerSearch
-                            (nzOnSearch)="onSearchDocument($event)">
-                            <ng-container *ngFor="let dataDocument of optionListDocument">
-                                <nz-option *ngIf="!isLoadingDocument" [nzValue]="dataDocument.id"
-                                    [nzLabel]="dataDocument.nombre_documento"></nz-option>
-                            </ng-container>
-                            <nz-option *ngIf="isLoadingDocument" nzDisabled nzCustomContent>
-                                <span nz-icon nzType="loading" class="loading-icon"></span>
-                                Cargando información...
-                            </nz-option>
-                        </nz-select>
-                    </td>
-                    <td><input type="text" nz-input [(ngModel)]="editCacheTableDocument[$index].data.ubicacion" /></td>
-                    <td><input type="text" nz-input [(ngModel)]="editCacheTableDocument[$index].data.nota" /></td>
-                    <td nzRight>
-                        <div class="d-flex justify-content-end gap-2">
-                            <button nz-button nzType="primary" nzShape="circle" (click)="saveEditDocument($index)">
-                                <span nz-icon nzType="save" nzTheme="outline"></span>
-                            </button>
-                            <button nz-button nzType="primary" nzShape="circle" nzDanger nz-popconfirm
-                                nzPopconfirmTitle="¿Seguro que NO quieres guardar los cambios?"
-                                (nzOnConfirm)="cancelEditDocument($index)">
-                                <span nz-icon nzType="close-circle" nzTheme="outline"></span>
-                            </button>
-                        </div>
-                    </td>
-                    }
-                </tr>
-                }
-            </tbody>
-        </nz-table>
+  @if (document.length > 0 || isAddNewDocument) {
+  <ng-form
+    nz-form
+    [formGroup]="validateFormDocument"
+    (ngSubmit)="submitFormDocument()"
+    nzLayout="vertical"
+  >
+    <div class="row">
+      <div class="col-md-6 col-sm-12">
+        <nz-form-item>
+          <nz-form-control nzErrorTip="Este es un campo obligatorio">
+            <nz-select
+              id="documento"
+              nzPlaceHolder="Seleciona un documento"
+              formControlName="id_documento"
+              nzAllowClear
+              nzShowSearch
+              nzServerSearch
+              (nzOnSearch)="onSearchDocument($event)"
+            >
+              <ng-container *ngFor="let dataDocument of optionListDocument">
+                <nz-option
+                  *ngIf="!isLoadingDocument"
+                  [nzValue]="dataDocument.id"
+                  [nzLabel]="dataDocument.nombre_documento"
+                ></nz-option>
+              </ng-container>
+              <nz-option *ngIf="isLoadingDocument" nzDisabled nzCustomContent>
+                <span nz-icon nzType="loading" class="loading-icon"></span>
+                Cargando información...
+              </nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div class="col-md-6 col-sm-12">
+        <nz-form-item>
+          <nz-form-control nzErrorTip="Este campo es obligatorio">
+            <input
+              id="ubicacion"
+              type="text"
+              nz-input
+              formControlName="ubicacion"
+              placeholder="Escriba la ubicación del documento"
+              [appLimitChars]="255"
+            />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div class="col-md-12 col-sm-12">
+        <nz-form-item>
+          <nz-form-control nzErrorTip="Este campo es obligatorio">
+            <input
+              id="nota"
+              type="text"
+              nz-input
+              formControlName="nota"
+              placeholder="Escriba una nota del documento"
+              [appLimitChars]="255"
+            />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div class="col-12 text-center mb-4">
+        <button nz-button nzType="primary" (click)="submitFormDocument()">
+          Agregar Documento
+          <span nz-icon nzType="plus"></span>
+        </button>
+      </div>
     </div>
-    } @else {
-    <nz-empty *ngIf="document.length == 0" nzNotFoundImage="..../../assets/icons/documentos.avif"
-        [nzNotFoundContent]="contentTpl" [nzNotFoundFooter]="footerTpl">
-        <ng-template #contentTpl>
-            <span>
-                No se han agregado responsables
-            </span>
-        </ng-template>
-        <ng-template #footerTpl>
-            <button nz-button nzType="primary" (click)="showRefDocument()">Agregar Documento</button>
-        </ng-template>
-    </nz-empty>
-    }
+  </ng-form>
+  <div class="table-responsive">
+    <nz-table
+      #editRowTable
+      nzBordered
+      [nzData]="document"
+      nzTableLayout="fixed"
+      [nzScroll]="scrollTableX"
+    >
+      <thead>
+        <tr>
+          <th [nzWidth]="widthDocumento">Documento</th>
+          <th [nzWidth]="widthUbicacion">Ubicación</th>
+          <th [nzWidth]="widthNota">Nota</th>
+          <th [nzWidth]="widthAccion" nzRight>Acción</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (data of editRowTable.data; track data) {
+        <tr>
+          @if (!editCacheTableDocument[$index].edit) {
+          <td>{{ data.nombre_documento }}</td>
+          <td>{{ data.ubicacion }}</td>
+          <td>{{ data.nota }}</td>
+          <td nzRight>
+            <div class="d-flex justify-content-end gap-2">
+              <button
+                nz-button
+                nzType="primary"
+                nzShape="circle"
+                (click)="startEditDocument($index)"
+              >
+                <span nz-icon nzType="edit" nzTheme="outline"></span>
+              </button>
+              <button
+                nz-button
+                nzType="primary"
+                nzShape="circle"
+                nzDanger
+                (click)="deleteDocument($index)"
+              >
+                <span nz-icon nzType="delete" nzTheme="outline"></span>
+              </button>
+            </div>
+          </td>
+          } @else {
+          <td>
+            <nz-select
+              class="w-100"
+              [(ngModel)]="editCacheTableDocument[$index].data.id_documento"
+              nzPlaceHolder="Seleciona un documento"
+              nzShowSearch
+              nzServerSearch
+              (nzOnSearch)="onSearchDocument($event)"
+            >
+              <ng-container *ngFor="let dataDocument of optionListDocument">
+                <nz-option
+                  *ngIf="!isLoadingDocument"
+                  [nzValue]="dataDocument.id"
+                  [nzLabel]="dataDocument.nombre_documento"
+                ></nz-option>
+              </ng-container>
+              <nz-option *ngIf="isLoadingDocument" nzDisabled nzCustomContent>
+                <span nz-icon nzType="loading" class="loading-icon"></span>
+                Cargando información...
+              </nz-option>
+            </nz-select>
+          </td>
+          <td>
+            <input
+              type="text"
+              nz-input
+              [(ngModel)]="editCacheTableDocument[$index].data.ubicacion"
+            />
+          </td>
+          <td>
+            <input
+              type="text"
+              nz-input
+              [(ngModel)]="editCacheTableDocument[$index].data.nota"
+            />
+          </td>
+          <td nzRight>
+            <div class="d-flex justify-content-end gap-2">
+              <button
+                nz-button
+                nzType="primary"
+                nzShape="circle"
+                (click)="saveEditDocument($index)"
+              >
+                <span nz-icon nzType="save" nzTheme="outline"></span>
+              </button>
+              <button
+                nz-button
+                nzType="primary"
+                nzShape="circle"
+                nzDanger
+                nz-popconfirm
+                nzPopconfirmTitle="¿Seguro que NO quieres guardar los cambios?"
+                (nzOnConfirm)="cancelEditDocument($index)"
+              >
+                <span nz-icon nzType="close-circle" nzTheme="outline"></span>
+              </button>
+            </div>
+          </td>
+          }
+        </tr>
+        }
+      </tbody>
+    </nz-table>
+  </div>
+  } @else {
+  <nz-empty
+    *ngIf="document.length == 0"
+    nzNotFoundImage="..../../assets/icons/documentos.avif"
+    [nzNotFoundContent]="contentTpl"
+    [nzNotFoundFooter]="footerTpl"
+  >
+    <ng-template #contentTpl>
+      <span> No se han agregado responsables </span>
+    </ng-template>
+    <ng-template #footerTpl>
+      <button nz-button nzType="primary" (click)="showRefDocument()">
+        Agregar Documento
+      </button>
+    </ng-template>
+  </nz-empty>
+  }
 </div>

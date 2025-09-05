@@ -21,6 +21,9 @@ import { DatatableServer } from '../../interface/server.interface';
 import { ServerService } from '../../service/server/server.service';
 import { TableScrollX } from '../../interface/global.interface';
 
+// Directives
+import { LimitCharsDirective } from '../../directive/limit-chars/limit-chars.directive';
+
 
 @Component({
   selector: 'app-server',
@@ -36,7 +39,8 @@ import { TableScrollX } from '../../interface/global.interface';
     NzInputModule,
     NzIconModule,
     ReactiveFormsModule,
-    NzPopconfirmModule
+    NzPopconfirmModule,
+    LimitCharsDirective
   ],
   templateUrl: './server.component.html',
   styleUrl: './server.component.css'
