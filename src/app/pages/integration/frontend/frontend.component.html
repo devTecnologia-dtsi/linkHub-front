@@ -1,301 +1,474 @@
-<!-- Contenedor principal para aplicar margenes responsivos -->
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-12 d-flex bd-highlight flex-wrap">
-            <div class="me-auto p-2 bd-highlight">
-                <button nz-button nzType="primary" (click)="openTemplate()">
-                    <span nz-icon nzType="plus"></span>
-                </button>
-            </div>
-            <div class="bd-highlight p-2">
-                <nz-input-group nzSearch [nzAddOnAfter]="suffixButton">
-                    <input type="text" [(ngModel)]="searchValue" nz-input placeholder="Buscar" />
-                </nz-input-group>
-                <ng-template #suffixButton>
-                    <button nz-button nzType="primary" (click)="search()">
-                        <i nz-icon nzType="search"></i>Buscar
-                    </button>
-                </ng-template>
-            </div>
-            <div class="bd-highlight p-2">
-                <button nz-button nzType="primary">
-                    <i nz-icon nzType="clear" (click)="reset()"></i>
-                </button>
-            </div>
-        </div>
+<div class="d-flex bd-highlight">
+  <div class="me-auto bd-highlight">
+    <button
+      nzTooltipTitle="Agregar Usuario"
+      nzTooltipPlacement="top"
+      nz-button
+      nzType="primary"
+      (click)="openTemplate()"
+      nz-tooltip
+    >
+      <span nz-icon nzType="plus">
+        <span class="visually-hidden">Agregar</span>
+      </span>
+    </button>
+  </div>
+  <div class="bd-highlight">
+    <div class="contenido">
+      <nz-input-group nzSearch [nzAddOnAfter]="suffixButton">
+        <input
+          type="text"
+          [(ngModel)]="searchValue"
+          nz-input
+          placeholder="buscar"
+          id="buscar"
+          name="buscar"
+          class="input-transparente"
+        />
+        <label for="buscar" class="label-placeholder"> buscar </label>
+      </nz-input-group>
     </div>
+    <ng-template #suffixButton>
+      <button nz-button nzType="primary" (click)="search()">
+        <i nz-icon nzType="search"></i>Buscar
+      </button>
+    </ng-template>
+  </div>
+  <div class="bd-highlight">
+    <button
+      nzTooltipTitle="Limpiar busqueda"
+      nzTooltipPlacement="top"
+      nz-button
+      nzType="primary"
+      nz-tooltip
+      (click)="reset()"
+    >
+      <span nz-icon nzType="clear">
+        <span class="visually-hidden">Limpiar busqueda</span>
+      </span>
+    </button>
+  </div>
 </div>
 
 <ng-template #drawerFrontend let-data let-drawerRef="drawerRef">
-    <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()" nzLayout="vertical">
-        <div class="row">
-            <div class="col-md-6 col-sm-12">
-                <nz-form-item>
-                    <nz-form-label nzRequired nzFor="nombre_proyecto">Proyecto</nz-form-label>
-                    <nz-form-control nzErrorTip="Este campo es obligatorio">
-                        <input id="nombre_proyecto" type="text" nz-input formControlName="nombre_proyecto"
-                            [ngModel]="dataForm.nombre_proyecto" placeholder="Escriba el nombre del proyecto" />
-                    </nz-form-control>
-                </nz-form-item>
-            </div>
-            <div class="col-md-6 col-sm-12">
-                <nz-form-item>
-                    <nz-form-label nzRequired nzFor="descripcion_proyecto">Descripcion</nz-form-label>
-                    <nz-form-control nzErrorTip="Este campo es obligatorio">
-                        <input id="descripcion_proyecto" type="text" nz-input formControlName="descripcion_proyecto"
-                            [ngModel]="dataForm.descripcion_proyecto"
-                            placeholder="Escriba la descripcion del proyecto" />
-                    </nz-form-control>
-                </nz-form-item>
-            </div>
-            <div class="col-md-6 col-sm-12">
-                <nz-form-item>
-                    <nz-form-label nzRequired nzFor="url">Url</nz-form-label>
-                    <nz-form-control nzErrorTip="Este campo es obligatorio">
-                        <input id="url" type="text" nz-input formControlName="url" [ngModel]="dataForm.url"
-                            placeholder="Escriba la url del proyecto" />
-                    </nz-form-control>
-                </nz-form-item>
-            </div>
-            <div class="col-md-6 col-sm-12">
-                <nz-form-item>
-                    <nz-form-label nzRequired nzFor="url">Url Versionamiento</nz-form-label>
-                    <nz-form-control nzErrorTip="Url no valida">
-                        <input id="url" type="text" nz-input formControlName="url_versionamiento"
-                            [ngModel]="dataForm.url" placeholder="Escriba la url del codigó fuente" />
-                    </nz-form-control>
-                </nz-form-item>
-            </div>
-            <div class="col-md-6 col-sm-12">
-                <nz-form-item>
-                    <nz-form-label nzRequired nzFor="lenguaje">Lenguaje</nz-form-label>
-                    <nz-form-control nzErrorTip="Este es un campo obligatorio">
-                        <nz-select id="lenguaje" formControlName="id_lenguaje" nzPlaceHolder="Seleciona un lenguaje"
-                            nzAllowClear nzShowSearch nzServerSearch [ngModel]="dataForm.id_lenguaje"
-                            (nzOnSearch)="onSearchLenguage($event)">
-                            <ng-container *ngFor="let dataLenguage of optionListLenguage">
-                                <nz-option *ngIf="!isLoadingLenguage" [nzValue]="dataLenguage.id"
-                                    [nzLabel]="dataLenguage.nombre"></nz-option>
-                            </ng-container>
-                            <nz-option *ngIf="isLoadingLenguage" nzDisabled nzCustomContent>
-                                <span nz-icon nzType="loading" class="loading-icon"></span>
-                                Cargando información...
-                            </nz-option>
-                        </nz-select>
-                    </nz-form-control>
-                </nz-form-item>
-            </div>
-            <div class="col-md-6 col-sm-12">
-                <nz-form-item>
-                    <nz-form-label nzRequired nzFor="tipoApp">Tipo App</nz-form-label>
-                    <nz-form-control nzErrorTip="Este campo es obligatorio">
-                        <nz-switch [ngModel]="dataForm.tipoApp" [nzCheckedChildren]="checkedTemplate"
-                            [nzUnCheckedChildren]="unCheckedTemplate" formControlName="tipoApp" id="tipoApp"></nz-switch>
-                        <ng-template #checkedTemplate><span nz-icon nzType="phone"
-                                nzTheme="outline"></span></ng-template>
-                        <ng-template #unCheckedTemplate><span nz-icon nzType="chrome"
-                                nzTheme="outline"></span></ng-template>
-                    </nz-form-control>
-                </nz-form-item>
-            </div>
-        </div>
-    </form>
-    <nz-tabset>
-        <nz-tab [nzTitle]="serverTemplate">
-            <ng-template #serverTemplate>
-                <span nz-icon nzType="cloud-server"></span>
-                Servidores
-            </ng-template>
-            <app-server [(servidores)]="dataForm.servidores"></app-server>
-        </nz-tab>
-        <nz-tab [nzTitle]="backendsTemplate">
-            <ng-template #backendsTemplate>
-                <span nz-icon nzType="code-sandbox"></span>
-                Backends
-            </ng-template>
-            <app-backend [(backends)]="dataForm.backends"></app-backend>
-        </nz-tab>
-        <nz-tab [nzTitle]="userTemplate">
-            <ng-template #userTemplate>
-                <span nz-icon nzType="user"></span>
-                Responsables
-            </ng-template>
-            <app-responsable [(responsible)]="dataForm.responsables"></app-responsable>
-        </nz-tab>
-        <nz-tab [nzTitle]="documentTemplate">
-            <ng-template #documentTemplate>
-                <span nz-icon nzType="folder-open"></span>
-                Documentos
-            </ng-template>
-            <app-documents [(document)]="dataForm.documentos"></app-documents>
-        </nz-tab>
-    </nz-tabset>
+  <form
+    nz-form
+    [formGroup]="validateForm"
+    (ngSubmit)="submitForm()"
+    nzLayout="vertical"
+  >
+    <div class="row">
+      <div class="col-md-6 col-sm-12">
+        <nz-form-item>
+          <nz-form-label nzRequired nzFor="nombre_proyecto"
+            >Proyecto</nz-form-label
+          >
+          <nz-form-control nzErrorTip="Este campo es obligatorio">
+            <input
+              id="nombre_proyecto"
+              type="text"
+              nz-input
+              formControlName="nombre_proyecto"
+              [ngModel]="dataForm.nombre_proyecto"
+              placeholder="Escriba el nombre del proyecto"
+              [appLimitChars]="100"
+            />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div class="col-md-6 col-sm-12">
+        <nz-form-item>
+          <nz-form-label nzRequired nzFor="descripcion_proyecto">
+            Descripcion
+          </nz-form-label>
+          <nz-form-control nzErrorTip="Este campo es obligatorio">
+            <input
+              id="descripcion_proyecto"
+              type="text"
+              nz-input
+              formControlName="descripcion_proyecto"
+              [ngModel]="dataForm.descripcion_proyecto"
+              placeholder="Escriba la descripcion del proyecto"
+              [appLimitChars]="100"
+            />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div class="col-md-6 col-sm-12">
+        <nz-form-item>
+          <nz-form-label nzRequired nzFor="url">Url</nz-form-label>
+          <nz-form-control nzErrorTip="Este campo es obligatorio">
+            <input
+              id="url"
+              type="text"
+              nz-input
+              formControlName="url"
+              [ngModel]="dataForm.url"
+              placeholder="Escriba la url del proyecto"
+              [appLimitChars]="255"
+            />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div class="col-md-6 col-sm-12">
+        <nz-form-item>
+          <nz-form-label nzRequired nzFor="url">
+            Url Versionamiento
+          </nz-form-label>
+          <nz-form-control nzErrorTip="Url no valida">
+            <input
+              id="url"
+              type="text"
+              nz-input
+              formControlName="url_versionamiento"
+              [ngModel]="dataForm.url"
+              placeholder="Escriba la url del codigó fuente"
+              [appLimitChars]="255"
+            />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div class="col-md-6 col-sm-12">
+        <nz-form-item>
+          <nz-form-label nzRequired nzFor="lenguaje">Lenguaje</nz-form-label>
+          <nz-form-control nzErrorTip="Este es un campo obligatorio">
+            <nz-select
+              id="lenguaje"
+              formControlName="id_lenguaje"
+              nzPlaceHolder="Seleciona un lenguaje"
+              nzAllowClear
+              nzShowSearch
+              nzServerSearch
+              [ngModel]="dataForm.id_lenguaje"
+              (nzOnSearch)="onSearchLenguage($event)"
+            >
+              <ng-container *ngFor="let dataLenguage of optionListLenguage">
+                <nz-option
+                  *ngIf="!isLoadingLenguage"
+                  [nzValue]="dataLenguage.id"
+                  [nzLabel]="dataLenguage.nombre"
+                ></nz-option>
+              </ng-container>
+              <nz-option *ngIf="isLoadingLenguage" nzDisabled nzCustomContent>
+                <span nz-icon nzType="loading" class="loading-icon"></span>
+                Cargando información...
+              </nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div class="col-md-6 col-sm-12">
+        <nz-form-item>
+          <nz-form-label nzRequired nzFor="tipoApp">Tipo App</nz-form-label>
+          <nz-form-control nzErrorTip="Este campo es obligatorio">
+            <nz-switch
+              [ngModel]="dataForm.tipoApp"
+              [nzCheckedChildren]="checkedTemplate"
+              [nzUnCheckedChildren]="unCheckedTemplate"
+              formControlName="tipoApp"
+              id="tipoApp"
+            ></nz-switch>
+            <ng-template #checkedTemplate
+              ><span nz-icon nzType="phone" nzTheme="outline"></span
+            ></ng-template>
+            <ng-template #unCheckedTemplate
+              ><span nz-icon nzType="chrome" nzTheme="outline"></span
+            ></ng-template>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+  </form>
+  <nz-tabset>
+    <nz-tab [nzTitle]="serverTemplate">
+      <ng-template #serverTemplate>
+        <span nz-icon nzType="cloud-server"></span>
+        Servidores
+      </ng-template>
+      <app-server [(servidores)]="dataForm.servidores"></app-server>
+    </nz-tab>
+    <nz-tab [nzTitle]="backendsTemplate">
+      <ng-template #backendsTemplate>
+        <span nz-icon nzType="code-sandbox"></span>
+        Backends
+      </ng-template>
+      <app-backend [(backends)]="dataForm.backends"></app-backend>
+    </nz-tab>
+    <nz-tab [nzTitle]="userTemplate">
+      <ng-template #userTemplate>
+        <span nz-icon nzType="user"></span>
+        Responsables
+      </ng-template>
+      <app-responsable
+        [(responsible)]="dataForm.responsables"
+      ></app-responsable>
+    </nz-tab>
+    <nz-tab [nzTitle]="documentTemplate">
+      <ng-template #documentTemplate>
+        <span nz-icon nzType="folder-open"></span>
+        Documentos
+      </ng-template>
+      <app-documents [(document)]="dataForm.documentos"></app-documents>
+    </nz-tab>
+  </nz-tabset>
 </ng-template>
 
 <ng-template #footerFrontend>
-    <div class="d-flex justify-content-end flex-wrap">
-        <button class="me-2 mb-2" nz-button (click)="close()">Cerrar</button>
-        <button class="mb-2" nz-button nzType="primary" (click)="submitForm()" [nzLoading]="isSaving">Guardar</button>
-    </div>
+  <div class="d-flex justify-content-end flex-wrap">
+    <button class="me-2 mb-2" nz-button (click)="close()">Cerrar</button>
+    <button
+      class="mb-2"
+      nz-button
+      nzType="primary"
+      (click)="submitForm()"
+      [nzLoading]="isSaving"
+    >
+      Guardar
+    </button>
+  </div>
 </ng-template>
 
-<nz-table class="mt-2" #colSpanTable #filterTable [nzData]="listOfData" nzTableLayout="fixed" [nzScroll]="{ x: 'auto' }"
-    [nzLoading]="isLoading">
-    <thead>
-        <tr>
-            <th *ngFor="let column of listOfColumns;" [(nzSortOrder)]="column.sortOrder" [nzSortFn]="column.sortFn"
-                [nzShowSort]="column.showSort">
-                {{ column.name }}
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @for(data of filterTable.data; track $index){
-        <tr>
-            <td [nzExpand]="expandSet.has(data.id)" (nzExpandChange)="onExpandChange(data.id, $event)"></td>
-            <td>{{ data.nombre_proyecto }}</td>
-            <td>{{ data.descripcion_proyecto }}</td>
-            <td class="text-center">
-                <div class="d-flex justify-content-around">
-                    <a href="{{ data.url_versionamiento }}" target="_blank"><span nz-icon nzType="code"
-                            nzTheme="outline"></span></a>
-                    <a href="{{ data.url }}" target="_blank"><span nz-icon nzType="link" nzTheme="outline"></span></a>
-                </div>
-            </td>
-            <td class="text-center">
-                @if(data.tipoApp == false){
-                <span nz-icon nzType="chrome" nzTheme="outline"></span>
-                } @else {
-                <span nz-icon nzType="phone" nzTheme="outline"></span>
-                }
-            </td>
-            <td>
-                <div class="d-flex justify-content-center flex-wrap">
-                    <button nz-button nzType="primary" class="me-2">
-                        <span nz-icon nzType="edit" (click)="openEditTemplate(data)"></span>
-                    </button>
-                    <nz-switch [(ngModel)]="data.activo" [nzControl]="true" (click)="changeState(data)"
-                        [nzLoading]="data.loading ? true : false"></nz-switch>
-                </div>
-            </td>
-        </tr>
-        <tr [nzExpand]="expandSet.has(data.id)">
-            <td colspan="7">
-                <div class="row">
-                    <div class="col-md-6 col-sm-12">
-                        <ng-template #titleResponsable>
-                            <div class="text-center">
-                                <nz-alert
-                                    nzType="info"
-                                    nzDescription="Información de los responsables"
-                                    nzShowIcon
-                                ></nz-alert>
-                            </div>
-                        </ng-template>
-                        <nz-table nzHideOnSinglePage="true" #responsables [nzPageSize]="3" [nzData]="data.responsables" [nzTitle]="titleResponsable" nzTableLayout="fixed">
-                            <thead>
-                                <tr>
-                                    <th>Usuario</th>
-                                    <th>Rol</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @for (responsable of responsables.data; track $index) {
-                                    <tr>
-                                        <td>{{ responsable.nombre_usuario }}</td>
-                                        <td>{{ responsable.descripcion_rol }}</td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </nz-table>
-                    </div>
-                    <div class="col-md-6 col-sm-12">
-                        <ng-template #titleServers>
-                            <div class="text-center">
-                                <nz-alert
-                                    nzType="info"
-                                    nzDescription="Información de servidores"
-                                    nzShowIcon
-                                ></nz-alert>
-                            </div>
-                        </ng-template>
-                        <nz-table class="mx-2" nzHideOnSinglePage="true" [nzPageSize]="3" #servidores [nzData]="data.servidores" [nzTitle]="titleServers" nzTableLayout="fixed">
-                            <thead>
-                                <tr>
-                                    <th>Nombre Servidor</th>
-                                    <th>Url</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @for (servidor of servidores.data; track $index) {
-                                    <tr>
-                                        <td>{{ servidor.nombre_servidor }}</td>
-                                        <td class="text-center"> <a href=" {{ servidor.url_servidor }}" target="_blank"><span nz-icon nzType="link" nzTheme="outline"></span></a></td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </nz-table>
-                    </div>
-                    <div class="col-md-6 col-sm-12">
-                        <ng-template #titleDocuments>
-                            <div class="text-center">
-                                <nz-alert
-                                    nzType="info"
-                                    nzDescription="Información de documentos"
-                                    nzShowIcon
-                                ></nz-alert>
-                            </div>
-                        </ng-template>
-                        <nz-table class="m-2" nzHideOnSinglePage="true" [nzPageSize]="3" #documentos [nzData]="data.documentos" [nzTitle]="titleDocuments" nzTableLayout="fixed">
-                            <thead>
-                                <tr>
-                                    <th>Documento</th>
-                                    <th>Ubicación</th>
-                                    <th>Nota</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @for (documento of documentos.data; track $index) {
-                                    <tr >
-                                        <td>{{ documento.nombre_documento }}</td>
-                                        <td class="text-center"><a href="{{ documento.ubicacion }}" target="_blank"><span nz-icon nzType="link" nzTheme="outline"></span></a></td>
-                                        <td>{{ documento.nota }}</td>
-                                    </tr>   
-                                }
-                            </tbody>
-                        </nz-table>
-                    </div>
-                    <div class="col-md-6 col-sm-12">
-                        <ng-template #titleBackends>
-                            <div class="text-center">
-                                <nz-alert
-                                    nzType="info"
-                                    nzDescription="Información de backends"
-                                    nzShowIcon
-                                ></nz-alert>
-                            </div>
-                        </ng-template>
-                        <nz-table class="m-2" nzHideOnSinglePage="true" [nzPageSize]="2" #backends [nzData]="data.backends" [nzTitle]="titleBackends" nzTableLayout="fixed">
-                            <thead>
-                                <tr>
-                                    <th>Backend</th>
-                                    <th>Descripción</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @for (backend of backends.data; track $index) {
-                                    <tr >
-                                        <td>{{ backend.descripcion }}</td>
-                                        <td>Descripcción</td>
-                                    </tr>   
-                                }
-                            </tbody>
-                        </nz-table>
-                    </div>
-                </div>
-            </td>
-        </tr>
+<nz-table
+  class="mt-2"
+  #colSpanTable
+  #filterTable
+  [nzData]="listOfData"
+  nzTableLayout="fixed"
+  [nzScroll]="{ x: 'auto' }"
+  [nzLoading]="isLoading"
+>
+  <thead>
+    <tr>
+      <th
+        *ngFor="let column of listOfColumns"
+        [(nzSortOrder)]="column.sortOrder"
+        [nzSortFn]="column.sortFn"
+        [nzShowSort]="column.showSort"
+      >
+        {{ column.name }}
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    @for(data of filterTable.data; track $index){
+    <tr>
+      <td
+        [nzExpand]="expandSet.has(data.id)"
+        (nzExpandChange)="onExpandChange(data.id, $event)"
+      ></td>
+      <td>{{ data.nombre_proyecto }}</td>
+      <td>{{ data.descripcion_proyecto }}</td>
+      <td class="text-center">
+        <div class="d-flex justify-content-around">
+          <a href="{{ data.url_versionamiento }}" target="_blank">
+            <span nz-icon nzType="code" nzTheme="outline">
+              <span class="visually-hidden">url versionamiento</span>
+            </span>
+          </a>
+          <a href="{{ data.url }}" target="_blank">
+            <span nz-icon nzType="link" nzTheme="outline">
+              <span class="visually-hidden">url</span>
+            </span>
+          </a>
+        </div>
+      </td>
+      <td class="text-center">
+        @if(data.tipoApp == false){
+        <span nz-icon nzType="chrome" nzTheme="outline"></span>
+        } @else {
+        <span nz-icon nzType="phone" nzTheme="outline"></span>
         }
-
-    </tbody>
+      </td>
+      <td>
+        <div class="d-flex justify-content-evenly">
+          <button
+            nzTooltipTitle="Editar"
+            nzTooltipPlacement="top"
+            nz-button
+            nzType="primary"
+            nz-tooltip
+            (click)="openEditTemplate(data)"
+          >
+            <span nz-icon nzType="edit">
+              <span class="visually-hidden">Editar</span>
+            </span>
+          </button>
+          @if (!data.loading){
+          <label
+            nz-checkbox
+            [(ngModel)]="data.activo"
+            nz-tooltip
+            [nzTooltipTitle]="data.activo ? 'Desactivar' : 'Activar'"
+            nzTooltipPlacement="top"
+            (ngModelChange)="changeState(data)"
+          >
+            <span class="visually-hidden">Activar | Desactivar</span>
+          </label>
+          }@else {
+          <button nz-button nzLoading nzType="dashed" nzShape="circle"></button>
+          }
+        </div>
+      </td>
+    </tr>
+    <tr [nzExpand]="expandSet.has(data.id)">
+      <td colspan="7">
+        <div class="row">
+          <div class="col-md-6 col-sm-12">
+            <ng-template #titleResponsable>
+              <div class="text-center">
+                <nz-alert
+                  nzType="info"
+                  nzDescription="Información de los responsables"
+                  nzShowIcon
+                ></nz-alert>
+              </div>
+            </ng-template>
+            <nz-table
+              nzHideOnSinglePage="true"
+              #responsables
+              [nzPageSize]="3"
+              [nzData]="data.responsables"
+              [nzTitle]="titleResponsable"
+              nzTableLayout="fixed"
+            >
+              <thead>
+                <tr>
+                  <th>Usuario</th>
+                  <th>Rol</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (responsable of responsables.data; track $index) {
+                <tr>
+                  <td>{{ responsable.nombre_usuario }}</td>
+                  <td>{{ responsable.descripcion_rol }}</td>
+                </tr>
+                }
+              </tbody>
+            </nz-table>
+          </div>
+          <div class="col-md-6 col-sm-12">
+            <ng-template #titleServers>
+              <div class="text-center">
+                <nz-alert
+                  nzType="info"
+                  nzDescription="Información de servidores"
+                  nzShowIcon
+                ></nz-alert>
+              </div>
+            </ng-template>
+            <nz-table
+              class="mx-2"
+              nzHideOnSinglePage="true"
+              [nzPageSize]="3"
+              #servidores
+              [nzData]="data.servidores"
+              [nzTitle]="titleServers"
+              nzTableLayout="fixed"
+            >
+              <thead>
+                <tr>
+                  <th>Nombre Servidor</th>
+                  <th>Url</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (servidor of servidores.data; track $index) {
+                <tr>
+                  <td>{{ servidor.nombre_servidor }}</td>
+                  <td class="text-center">
+                    <a href=" {{ servidor.url_servidor }}" target="_blank">
+                      <span nz-icon nzType="link" nzTheme="outline">
+                        <span class="visually-hidden">url servidor</span>
+                      </span>
+                    </a>
+                  </td>
+                </tr>
+                }
+              </tbody>
+            </nz-table>
+          </div>
+          <div class="col-md-6 col-sm-12">
+            <ng-template #titleDocuments>
+              <div class="text-center">
+                <nz-alert
+                  nzType="info"
+                  nzDescription="Información de documentos"
+                  nzShowIcon
+                ></nz-alert>
+              </div>
+            </ng-template>
+            <nz-table
+              class="m-2"
+              nzHideOnSinglePage="true"
+              [nzPageSize]="3"
+              #documentos
+              [nzData]="data.documentos"
+              [nzTitle]="titleDocuments"
+              nzTableLayout="fixed"
+            >
+              <thead>
+                <tr>
+                  <th>Documento</th>
+                  <th>Ubicación</th>
+                  <th>Nota</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (documento of documentos.data; track $index) {
+                <tr>
+                  <td>{{ documento.nombre_documento }}</td>
+                  <td class="text-center">
+                    <a href="{{ documento.ubicacion }}" target="_blank">
+                      <span nz-icon nzType="link" nzTheme="outline">
+                        <span class="visually-hidden">ubicacion documento</span>
+                      </span>
+                    </a>
+                  </td>
+                  <td>{{ documento.nota }}</td>
+                </tr>
+                }
+              </tbody>
+            </nz-table>
+          </div>
+          <div class="col-md-6 col-sm-12">
+            <ng-template #titleBackends>
+              <div class="text-center">
+                <nz-alert
+                  nzType="info"
+                  nzDescription="Información de backends"
+                  nzShowIcon
+                ></nz-alert>
+              </div>
+            </ng-template>
+            <nz-table
+              class="m-2"
+              nzHideOnSinglePage="true"
+              [nzPageSize]="2"
+              #backends
+              [nzData]="data.backends"
+              [nzTitle]="titleBackends"
+              nzTableLayout="fixed"
+            >
+              <thead>
+                <tr>
+                  <th>Backend</th>
+                  <th>Descripción</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (backend of backends.data; track $index) {
+                <tr>
+                  <td>{{ backend.descripcion }}</td>
+                  <td>Descripcción</td>
+                </tr>
+                }
+              </tbody>
+            </nz-table>
+          </div>
+        </div>
+      </td>
+    </tr>
+    }
+  </tbody>
 </nz-table>
