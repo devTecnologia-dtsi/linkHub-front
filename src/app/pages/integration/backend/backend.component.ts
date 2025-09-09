@@ -134,7 +134,7 @@ export class BackendComponent {
       [
         Validators.required,
         forbiddenNameValidator([
-          /^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(:\d{1,5})?(\/[^\s]*)?$/,
+          /^(https?:\/\/)((([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,})|(\d{1,3}(\.\d{1,3}){3}))(:\d{1,5})?(\/[^\s]*)?$/,
         ]),
       ],
     ],
@@ -145,7 +145,7 @@ export class BackendComponent {
       [
         Validators.required,
         forbiddenNameValidator([
-          /^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(:\d{1,5})?(\/[^\s]*)?$/,
+          /^(https?:\/\/)((([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,})|(\d{1,3}(\.\d{1,3}){3}))(:\d{1,5})?(\/[^\s]*)?$/,
         ]),
       ],
     ],
