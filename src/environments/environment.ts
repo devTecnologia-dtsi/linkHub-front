@@ -1,6 +1,11 @@
 export const environment = {
   production: true,
   baseUrl: 'https://apilinkhub.uniminuto.edu',
+  URLApiFotografia: 'https://fotografias.uniminuto.edu',
+  digibee: {
+    url: 'https://uniminuto.api.digibee.io/pipeline/uniminuto/v1',
+    key: 'ITnjVcrLWfYpY2B246EcrWO6Hln3LD7a',
+  },
   auth: {
     clientId: '0a26838f-0dec-46b7-9e88-38d9cea317d0',
     authority:
