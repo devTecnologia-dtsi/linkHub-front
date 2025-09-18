@@ -190,7 +190,6 @@ export class ServerComponent {
         return { ...rest, activo: activo ? true : false };
       });
       this.listOfDataCopy = this.listOfData;
-      console.log(this.listOfData);
     });
   }
 

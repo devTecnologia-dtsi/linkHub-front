@@ -110,7 +110,7 @@
               <a
                 [routerLink]="['/integration/backend']"
                 routerLinkActive="router-link-active"
-                >Backend</a
+                >Backends</a
               >
             </li>
             <li nz-menu-item nzMatchRouter>
@@ -151,9 +151,7 @@
               <a nz-dropdown [nzDropdownMenu]="menu" nzPlacement="bottomCenter">
                 <nz-badge nzStatus="success"></nz-badge>
                 <nz-avatar
-                  nzText="A"
-                  nzSize="large"
-                  style="color: #f56a00; background-color: #fde3cf"
+                  [nzSrc]="photographyUser"
                 ></nz-avatar>
               </a>
               <nz-dropdown-menu #menu="nzDropdownMenu">
@@ -166,9 +164,7 @@
                 </nz-card>
                 <ng-template #avatarTemplate>
                   <nz-avatar
-                    nzText="A"
-                    nzSize="large"
-                    style="color: #f56a00; background-color: #fde3cf"
+                    [nzSrc]="photographyUser"
                   ></nz-avatar>
                 </ng-template>
                 <ng-template #actionLogout>

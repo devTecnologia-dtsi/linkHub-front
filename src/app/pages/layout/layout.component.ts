@@ -10,6 +10,7 @@ import { NzCardModule } from 'ng-zorro-antd/card';
 import { CommonModule } from '@angular/common';
 import { MsalService } from '@azure/msal-angular';
 import { AccesoUsuarioService } from '../../service/auth/acceso-service';
+import { PhotographyService } from '../../service/photography/photography.service';
 
 @Component({
   selector: 'app-layout',
@@ -30,15 +31,18 @@ import { AccesoUsuarioService } from '../../service/auth/acceso-service';
   styleUrl: './layout.component.css',
 })
 export class LayoutComponent implements OnInit {
-  isCollapsed = false;
-  loginDisplay = false;
-  nombreUsuario = '';
-  cargoUsuario = '';
-  tipoUsuario = '';
+  isCollapsed: boolean = false;
+  loginDisplay: boolean = false;
+  nombreUsuario: string = '';
+  cargoUsuario: string = '';
+  tipoUsuario: string = '';
+  correo: string = '';
+  photographyUser: string = '';
 
   constructor(
     private authService: MsalService,
-    private accesouser: AccesoUsuarioService
+    private accesouser: AccesoUsuarioService,
+    private photographyService: PhotographyService
   ) {}
 
   ngOnInit(): void {
@@ -46,10 +50,27 @@ export class LayoutComponent implements OnInit {
     this.nombreUsuario = du.user.data.nombre;
     this.cargoUsuario = du.user.data.cargo;
     this.tipoUsuario = du.user.data.id_tipo_usuario;
+    this.correo = du.user.data.correo;
+    this.getPhotography();
   }
 
   setLoginDisplay() {
     this.loginDisplay = this.authService.instance.getAllAccounts().length > 0;
+  }
+
+  getPhotography() {
+    this.photographyService.getPhotography(this.correo).subscribe({
+      next: ({ response, message }) => {
+        const photography = localStorage.getItem('photography');
+        if (photography) {
+          this.photographyUser = photography;
+        }
+      },
+      error: (error) => {
+        console.log('error');
+        console.log(error);
+      },
+    });
   }
 
   logout(popup?: boolean) {
