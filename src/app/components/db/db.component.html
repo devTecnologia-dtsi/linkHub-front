@@ -1,0 +1,153 @@
+<div class="container">
+  @if (db.length > 0 || isAddNewBd) {
+  <ng-form
+    nz-form
+    [formGroup]="validateFormDb"
+    (ngSubmit)="submitFormBD()"
+    nzLayout="vertical"
+  >
+    <div class="row">
+      <div class="col-sm-12">
+        <nz-form-item>
+          <nz-form-control nzErrorTip="Este es un campo obligatorio">
+            <nz-select
+              nzPlaceHolder="Seleciona una base de datos"
+              formControlName="id_db"
+              nzAllowClear
+              nzShowSearch
+              nzServerSearch
+              (nzOnSearch)="onSearchDb($event)"
+            >
+              <ng-container *ngFor="let dataDb of optionListBd">
+                <nz-option
+                  *ngIf="!isLoadingDb"
+                  [nzValue]="dataDb.id"
+                  [nzLabel]="dataDb.esquema"
+                ></nz-option>
+              </ng-container>
+              <nz-option *ngIf="isLoadingDb" nzDisabled nzCustomContent>
+                <span nz-icon nzType="loading" class="loading-icon"></span>
+                Cargando información...
+              </nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div class="col-12 text-center mb-4">
+        <button nz-button nzType="primary" (click)="submitFormBD()">
+          Agregar Base de datos
+          <span nz-icon nzType="plus"></span>
+        </button>
+      </div>
+    </div>
+  </ng-form>
+  <div class="table-responsive">
+    <nz-table
+      #editRowTable
+      nzBordered
+      [nzData]="db"
+      nzTableLayout="fixed"
+      [nzScroll]="scrollTableX"
+    >
+      <thead>
+        <tr>
+          <th [nzWidth]="widthBd">Base de datos</th>
+          <th [nzWidth]="widthAccion" nzRight>Acción</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (data of editRowTable.data; track data) {
+        <tr>
+          @if (!editCacheTableDb[$index].edit) {
+          <td>{{ data.esquema }}</td>
+          <td nzRight>
+            <div class="d-flex justify-content-end gap-2">
+              <button
+                nz-button
+                nzType="primary"
+                nzShape="circle"
+                (click)="startEditDb($index)"
+              >
+                <span nz-icon nzType="edit" nzTheme="outline"></span>
+              </button>
+              <button
+                nz-button
+                nzType="primary"
+                nzShape="circle"
+                nzDanger
+                (click)="deleteDb($index)"
+              >
+                <span nz-icon nzType="delete" nzTheme="outline"></span>
+              </button>
+            </div>
+          </td>
+          } @else {
+          <td>
+            <nz-select
+              class="w-100"
+              [(ngModel)]="editCacheTableDb[$index].data.id"
+              nzPlaceHolder="Seleciona una base de datos"
+              nzShowSearch
+              nzServerSearch
+              (nzOnSearch)="onSearchDb($event)"
+            >
+              <ng-container *ngFor="let dataDb of optionListBd">
+                <nz-option
+                  *ngIf="!isLoadingDb"
+                  [nzValue]="dataDb.id"
+                  [nzLabel]="dataDb.esquema"
+                ></nz-option>
+              </ng-container>
+              <nz-option *ngIf="isLoadingDb" nzDisabled nzCustomContent>
+                <span nz-icon nzType="loading" class="loading-icon"></span>
+                Cargando información...
+              </nz-option>
+            </nz-select>
+          </td>
+          <td nzRight>
+            <div class="d-flex justify-content-end gap-2">
+              <button
+                nz-button
+                nzType="primary"
+                nzShape="circle"
+                (click)="saveEditDocument($index)"
+              >
+                <span nz-icon nzType="save" nzTheme="outline"></span>
+              </button>
+              <button
+                nz-button
+                nzType="primary"
+                nzShape="circle"
+                nzDanger
+                nz-popconfirm
+                nzPopconfirmTitle="¿Seguro que NO quieres guardar los cambios?"
+                (nzOnConfirm)="cancelEditDocument($index)"
+              >
+                <span nz-icon nzType="close-circle" nzTheme="outline"></span>
+              </button>
+            </div>
+          </td>
+          }
+        </tr>
+        }
+      </tbody>
+    </nz-table>
+  </div>
+  } @else {
+  <nz-empty
+    *ngIf="db.length == 0"
+    nzNotFoundImage="..../../assets/icons/basedatos.jpg"
+    [nzNotFoundContent]="contentTpl"
+    [nzNotFoundFooter]="footerTpl"
+  >
+    <ng-template #contentTpl>
+      <span> No se han agregado responsables </span>
+    </ng-template>
+    <ng-template #footerTpl>
+      <button nz-button nzType="primary" (click)="showRefDocument()">
+        Agregar Base de datos
+      </button>
+    </ng-template>
+  </nz-empty>
+  }
+</div>

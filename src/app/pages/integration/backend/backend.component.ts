@@ -49,6 +49,8 @@ import { ServerComponent } from '../../../components/server/server.component';
 import { ResponsableComponent } from '../../../components/responsable/responsable.component';
 import { DocumentsComponent } from '../../../components/documents/documents.component';
 import { forbiddenNameValidator } from '../../../validators/forbidden-name.validator';
+import { DbComponent } from '../../../components/db/db.component';
+
 // Directives
 import { LimitCharsDirective } from '../../../directive/limit-chars/limit-chars.directive';
 
@@ -76,7 +78,7 @@ import { LimitCharsDirective } from '../../../directive/limit-chars/limit-chars.
     NzAlertModule,
     ReactiveFormsModule,
     ServerComponent,
-    BackendComponent,
+    DbComponent,
     ResponsableComponent,
     DocumentsComponent,
     LimitCharsDirective,
@@ -113,6 +115,7 @@ export class BackendComponent {
     documentos: [],
     responsables: [],
     servidores: [],
+    dbs: [],
     nombre_backend: '',
     endpoint: '',
     loading: false,
@@ -238,12 +241,20 @@ export class BackendComponent {
         return;
       }
       const dataConverted = data.data.map(
-        ({ documentos, servidores, responsables, activo, ...rest }: any) => {
+        ({
+          documentos,
+          servidores,
+          responsables,
+          dbs,
+          activo,
+          ...rest
+        }: any) => {
           return {
             ...rest,
             documentos: JSON.parse(documentos),
             servidores: JSON.parse(servidores),
             responsables: JSON.parse(responsables),
+            dbs: JSON.parse(dbs),
             activo: activo ? true : false,
           };
         }
@@ -359,6 +370,7 @@ export class BackendComponent {
               documentos: [],
               responsables: [],
               servidores: [],
+              dbs: [],
               nombre_backend: '',
               endpoint: '',
               loading: false,
@@ -437,6 +449,7 @@ export class BackendComponent {
       documentos: [],
       responsables: [],
       servidores: [],
+      dbs: [],
       nombre_backend: '',
       endpoint: '',
       loading: false,

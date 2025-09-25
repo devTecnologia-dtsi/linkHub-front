@@ -1,7 +1,7 @@
 <div class="d-flex bd-highlight">
   <div class="me-auto bd-highlight">
     <button
-      nzTooltipTitle="Agregar Usuario"
+      nzTooltipTitle="Agregar Backend"
       nzTooltipPlacement="top"
       nz-button
       nzType="primary"
@@ -239,6 +239,13 @@
       </ng-template>
       <app-documents [(document)]="dataForm.documentos"></app-documents>
     </nz-tab>
+    <nz-tab [nzTitle]="DbTemplate">
+      <ng-template #DbTemplate>
+        <span nz-icon nzType="database"></span>
+        Base de Datos
+      </ng-template>
+      <app-db [(db)]="dataForm.dbs"></app-db>
+    </nz-tab>
   </nz-tabset>
 </ng-template>
 
@@ -293,13 +300,26 @@
       <td>{{ data.autenticacion }}</td>
       <td class="text-center">
         <div class="d-flex justify-content-around flex-wrap">
-          <a href="{{ data.URL_Versionamiento }}" target="_blank">
+          <a
+            [href]="data.URL_Versionamiento"
+            target="_blank"
+            nz-tooltip
+            nzTooltipTitle="Url Versionamiento"
+            nzTooltipPlacement="top"
+          >
             <span nz-icon nzType="link" nzTheme="outline">
               <span class="visually-hidden">Url versionamiento</span>
             </span>
           </a>
-          <a href="{{ data.coleccion }}" target="_blank">
-            <span nz-icon nzType="codepen" nzTheme="outline">
+          <a [href]="data.coleccion" target="_blank">
+            <span
+              nz-icon
+              nzType="codepen"
+              nzTheme="outline"
+              nz-tooltip
+              nzTooltipTitle="Url colleción"
+              nzTooltipPlacement="top"
+            >
               <span class="visually-hidden">url colleción</span>
             </span>
           </a>
@@ -403,7 +423,13 @@
                 <tr>
                   <td>{{ servidor.nombre_servidor }}</td>
                   <td class="text-center">
-                    <a href=" {{ servidor.url_servidor }}" target="_blank">
+                    <a
+                      [href]="servidor.url_servidor"
+                      target="_blank"
+                      nz-tooltip
+                      nzTooltipTitle="Url Servidor"
+                      nzTooltipPlacement="top"
+                    >
                       <span nz-icon nzType="link" nzTheme="outline">
                         <span class="visually-hidden">Url servidor</span>
                       </span>
@@ -414,7 +440,7 @@
               </tbody>
             </nz-table>
           </div>
-          <div class="col-md-12 col-sm-12">
+          <div class="col-md-6 col-sm-6">
             <ng-template #titleDocuments>
               <div class="text-center">
                 <nz-alert
@@ -445,13 +471,52 @@
                 <tr>
                   <td>{{ documento.nombre_documento }}</td>
                   <td class="text-center">
-                    <a href="{{ documento.ubicacion }}" target="_blank">
+                    <a
+                      [href]="documento.ubicacion"
+                      target="_blank"
+                      nz-tooltip
+                      nzTooltipTitle="Ubicación Documento"
+                      nzTooltipPlacement="top"
+                    >
                       <span nz-icon nzType="link" nzTheme="outline">
                         <span class="visually-hidden">Url documento</span>
                       </span>
                     </a>
                   </td>
                   <td>{{ documento.nota }}</td>
+                </tr>
+                }
+              </tbody>
+            </nz-table>
+          </div>
+          <div class="col-md-6 col-sm-6">
+            <ng-template #titleDb>
+              <div class="text-center">
+                <nz-alert
+                  nzType="info"
+                  nzDescription="Información de bases de datos"
+                  nzShowIcon
+                ></nz-alert>
+              </div>
+            </ng-template>
+            <nz-table
+              class="m-2"
+              nzHideOnSinglePage="true"
+              [nzPageSize]="3"
+              #dbs
+              [nzData]="data.dbs"
+              [nzTitle]="titleDb"
+              nzTableLayout="fixed"
+            >
+              <thead>
+                <tr>
+                  <th>Base de datos</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (db of dbs.data; track $index) {
+                <tr>
+                  <td>{{ db.esquema }}</td>
                 </tr>
                 }
               </tbody>
