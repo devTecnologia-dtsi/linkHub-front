@@ -159,7 +159,6 @@ export class BackendComponent {
   }
 
   startEditBackend(tableIndex: number): void {
-    console.log(this.editCacheTableBackends[tableIndex])
     this.editCacheTableBackends[tableIndex].edit = true;
   }
 
