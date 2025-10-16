@@ -34,7 +34,7 @@ import {
   LogLevel,
 } from '@azure/msal-browser';
 import { TokenInterceptor } from './service/interceptor/token-interceptor';
-import { NoncedOverlayContainer } from './cdk-overlay-config';
+import { CspOverlayContainer } from './cdk-overlay-config';
 
 registerLocaleData(en);
 
@@ -119,7 +119,7 @@ export const appConfig: ApplicationConfig = {
     },
     {
       provide: OverlayContainer,
-      useClass: NoncedOverlayContainer,
+      useClass: CspOverlayContainer,
     },
     MsalService,
     MsalGuard,
